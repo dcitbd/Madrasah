@@ -186,6 +186,528 @@ body.theme-dark {
 
   <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm"></div>
 
+  <!-- Global Modals Portal -->
+  <div id="admin-modals-portal">
+
+  <!-- 1. Add Student Modal -->
+  <div id="modal-add-student" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl border">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-user-plus text-emerald-700"></i> নতুন শিক্ষার্থী ভর্তি ফরম
+        </h3>
+        <button type="button" onclick="closeModal('modal-add-student')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+      <form onsubmit="submitAddStudent(event)" class="space-y-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">শিক্ষার্থীর নাম (বাংলায়) *</label>
+            <input type="text" id="add-st-name" required placeholder="নাম বাংলায়" class="w-full text-xs border rounded-lg p-2.5">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">নাম (ইংরেজিতে) *</label>
+            <input type="text" id="add-st-name-en" required placeholder="Full Name in English" class="w-full text-xs border rounded-lg p-2.5 uppercase">
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">রোল নম্বর *</label>
+            <input type="text" id="add-st-roll" required placeholder="যেমন: ০৪" class="w-full text-xs border rounded-lg p-2.5 font-bold">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">শ্রেণি *</label>
+            <select id="add-st-class" class="w-full text-xs border rounded-lg p-2.5 font-semibold">
+              <option value="হিফজুল কুরআন বিভাগ">হিফজুল কুরআন বিভাগ</option>
+              <option value="নূরানী ও প্লে-নার্সারি">নূরানী ও প্লে-নার্সারি</option>
+              <option value="১ম শ্রেণি (ইবতেদায়ী)">১ম শ্রেণি (ইবতেদায়ী)</option>
+              <option value="৬ষ্ঠ শ্রেণি (দাখিল)">৬ষ্ঠ শ্রেণি (দাখিল)</option>
+              <option value="দাখিল ১০ম শ্রেণি" selected>দাখিল ১০ম শ্রেণি</option>
+              <option value="আলিম ১ম বর্ষ">আলিম ১ম বর্ষ</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">শাখা *</label>
+            <select id="add-st-section" class="w-full text-xs border rounded-lg p-2.5">
+              <option value="ক (বিজ্ঞান শাখা)">ক (বিজ্ঞান শাখা)</option>
+              <option value="খ (সাধারণ শাখা)">খ (সাধারণ শাখা)</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">পিতার নাম *</label>
+            <input type="text" id="add-st-father" required placeholder="পিতার নাম" class="w-full text-xs border rounded-lg p-2.5">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">অভিভাবকের মোবাইল নম্বর *</label>
+            <input type="tel" id="add-st-phone" required placeholder="017xxxxxxxx" class="w-full text-xs border rounded-lg p-2.5 font-bold text-emerald-800">
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">রক্তের গ্রুপ</label>
+            <select id="add-st-blood" class="w-full text-xs border rounded-lg p-2.5">
+              <option value="A+">A+</option>
+              <option value="B+">B+</option>
+              <option value="O+">O+</option>
+              <option value="AB+">AB+</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">প্রাথমিক বকেয়া ফি (৳)</label>
+            <input type="number" id="add-st-dues" value="0" class="w-full text-xs border rounded-lg p-2.5">
+          </div>
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-add-student')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">বাতিল</button>
+          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2 rounded-xl text-xs shadow transition">শিক্ষার্থী ভর্তি নিশ্চিত করুন</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Edit Student Modal -->
+  <div id="modal-edit-student" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl border">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-user-pen text-emerald-700"></i> শিক্ষার্থী তথ্য সম্পাদনা
+        </h3>
+        <button type="button" onclick="closeModal('modal-edit-student')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+      <form onsubmit="submitEditStudent(event)" class="space-y-3">
+        <input type="hidden" id="edit-st-id">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">শিক্ষার্থীর নাম *</label>
+            <input type="text" id="edit-st-name" required class="w-full text-xs border rounded-lg p-2.5 font-bold">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">রোল নম্বর *</label>
+            <input type="text" id="edit-st-roll" required class="w-full text-xs border rounded-lg p-2.5 font-bold">
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">শ্রেণি *</label>
+            <input type="text" id="edit-st-class" required class="w-full text-xs border rounded-lg p-2.5">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">অভিভাবকের মোবাইল *</label>
+            <input type="tel" id="edit-st-phone" required class="w-full text-xs border rounded-lg p-2.5 font-mono">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">বকেয়া ফি (৳) *</label>
+          <input type="number" id="edit-st-dues" required class="w-full text-xs border rounded-lg p-2.5 font-bold text-amber-700">
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-edit-student')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">বাতিল</button>
+          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2 rounded-xl text-xs shadow transition">আপডেট সংরক্ষণ করুন</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Add Teacher Modal -->
+  <div id="modal-add-teacher" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl border">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-user-plus text-emerald-700"></i> নতুন শিক্ষক ও কর্মকর্তা নিয়োগ ফরম
+        </h3>
+        <button type="button" onclick="closeModal('modal-add-teacher')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+      <form onsubmit="submitAddTeacher(event)" class="space-y-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">শিক্ষকের নাম *</label>
+            <input type="text" id="add-tch-name" required placeholder="যেমন: মাওলানা কামরুল হাসান" class="w-full text-xs border rounded-lg p-2.5 font-bold">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">শিক্ষক আইডি *</label>
+            <input type="text" id="add-tch-id" required value="TCH-305" class="w-full text-xs border rounded-lg p-2.5 font-mono">
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">পদবী *</label>
+            <input type="text" id="add-tch-desig" required placeholder="সহকারী শিক্ষক / প্রভাষক" class="w-full text-xs border rounded-lg p-2.5">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">বিভাগ *</label>
+            <select id="add-tch-dept" class="w-full text-xs border rounded-lg p-2.5">
+              <option value="সাধারণ শিক্ষা ও বিজ্ঞান">সাধারণ শিক্ষা ও বিজ্ঞান</option>
+              <option value="হিফজুল কুরআন বিভাগ">হিফজুল কুরআন বিভাগ</option>
+              <option value="হাদিস ও ইসলামিক স্টাডিজ">হাদিস ও ইসলামিক স্টাডিজ</option>
+              <option value="ইংরেজি ও সাধারণ গণিত">ইংরেজি ও সাধারণ গণিত</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">মোবাইল নম্বর *</label>
+            <input type="tel" id="add-tch-phone" required placeholder="017xxxxxxxx" class="w-full text-xs border rounded-lg p-2.5 font-bold text-emerald-800">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">মাসিক বেতন স্কেল (৳)</label>
+            <input type="text" id="add-tch-salary" value="২৮,০০০" class="w-full text-xs border rounded-lg p-2.5">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">শিক্ষাগত যোগ্যতা *</label>
+          <input type="text" id="add-tch-qual" required placeholder="যেমন: কামিল হাদিস / বি.এস.সি (গণিত)" class="w-full text-xs border rounded-lg p-2.5">
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-add-teacher')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">বাতিল</button>
+          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2 rounded-xl text-xs shadow transition">নিয়োগ সংরক্ষণ করুন</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 4. Edit Teacher Modal -->
+  <div id="modal-edit-teacher" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl border">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-user-pen text-emerald-700"></i> শিক্ষক তথ্য সম্পাদনা
+        </h3>
+        <button type="button" onclick="closeModal('modal-edit-teacher')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+      <form onsubmit="submitEditTeacher(event)" class="space-y-3">
+        <input type="hidden" id="edit-tch-id">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">শিক্ষকের নাম *</label>
+            <input type="text" id="edit-tch-name" required class="w-full text-xs border rounded-lg p-2.5 font-bold">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">পদবী *</label>
+            <input type="text" id="edit-tch-desig" required class="w-full text-xs border rounded-lg p-2.5">
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">মোবাইল *</label>
+            <input type="tel" id="edit-tch-phone" required class="w-full text-xs border rounded-lg p-2.5 font-mono">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">বেতন স্কেল (৳) *</label>
+            <input type="text" id="edit-tch-salary" required class="w-full text-xs border rounded-lg p-2.5 font-bold">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">যোগ্যতা *</label>
+          <input type="text" id="edit-tch-qual" required class="w-full text-xs border rounded-lg p-2.5">
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-edit-teacher')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">বাতিল</button>
+          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2 rounded-xl text-xs shadow transition">আপডেট সংরক্ষণ করুন</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 5. Add Notice Modal -->
+  <div id="modal-add-notice" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-bullhorn text-emerald-700"></i> নতুন প্রাতিষ্ঠানিক নোটিশ প্রকাশ
+        </h3>
+        <button type="button" onclick="closeModal('modal-add-notice')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+      <form onsubmit="submitAddNotice(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">নোটিশের শিরোনাম *</label>
+          <input type="text" id="add-not-title" required placeholder="শিরোনাম লিখুন" class="w-full text-xs border rounded-lg p-2.5 font-bold">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">ক্যাটাগরি *</label>
+          <select id="add-not-cat" class="w-full text-xs border rounded-lg p-2.5 font-semibold">
+            <option value="পরীক্ষা">পরীক্ষা সংক্রান্ত</option>
+            <option value="ভর্তি">ভর্তি বিজ্ঞপ্তি</option>
+            <option value="একাডেমিক">একাডেমিক</option>
+            <option value="ছুটি">ছুটির নোটিশ</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">বিস্তারিত বিবরণ *</label>
+          <textarea id="add-not-body" required rows="3" placeholder="নোটিশের বিস্তারিত বার্তা..." class="w-full text-xs border rounded-lg p-2.5"></textarea>
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-add-notice')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">বাতিল</button>
+          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2 rounded-xl text-xs shadow transition">ওয়েবসাইটে লাইভ প্রকাশ করুন</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 6. Edit Notice Modal -->
+  <div id="modal-edit-notice" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-pen-to-square text-emerald-700"></i> নোটিশ সম্পাদনা
+        </h3>
+        <button type="button" onclick="closeModal('modal-edit-notice')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+      <form onsubmit="submitEditNotice(event)" class="space-y-3">
+        <input type="hidden" id="edit-not-id">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">নোটিশের শিরোনাম *</label>
+          <input type="text" id="edit-not-title" required class="w-full text-xs border rounded-lg p-2.5 font-bold">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">ক্যাটাগরি *</label>
+          <select id="edit-not-cat" class="w-full text-xs border rounded-lg p-2.5">
+            <option value="পরীক্ষা">পরীক্ষা সংক্রান্ত</option>
+            <option value="ভর্তি">ভর্তি বিজ্ঞপ্তি</option>
+            <option value="একাডেমিক">একাডেমিক</option>
+            <option value="ছুটি">ছুটির নোটিশ</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">বিস্তারিত বিবরণ *</label>
+          <textarea id="edit-not-body" required rows="3" class="w-full text-xs border rounded-lg p-2.5"></textarea>
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-edit-notice')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">বাতিল</button>
+          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2 rounded-xl text-xs shadow transition">পরিবর্তন সেভ করুন</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 7. Edit CMS Page Modal -->
+  <div id="modal-edit-page" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-file-pen text-emerald-700"></i> ওয়েব পেজ কনটেন্ট সম্পাদনা
+        </h3>
+        <button type="button" onclick="closeModal('modal-edit-page')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+      <form onsubmit="submitEditPage(event)" class="space-y-3">
+        <input type="hidden" id="edit-pg-id">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">পেজ শিরোনাম *</label>
+          <input type="text" id="edit-pg-title" required class="w-full text-xs border rounded-lg p-2.5 font-bold">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">স্লাগ URL (Slug) *</label>
+          <input type="text" id="edit-pg-slug" required class="w-full text-xs border rounded-lg p-2.5 font-mono">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">স্ট্যাটাস *</label>
+          <select id="edit-pg-status" class="w-full text-xs border rounded-lg p-2.5">
+            <option value="Published">Published (প্রকাশিত)</option>
+            <option value="Draft">Draft (খসড়া)</option>
+          </select>
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-edit-page')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">বাতিল</button>
+          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2 rounded-xl text-xs shadow transition">পেজ আপডেট করুন</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 8. Add Invoice Modal -->
+  <div id="modal-add-invoice" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-file-invoice-dollar text-emerald-700"></i> নতুন ফি ইনভয়েস তৈরি
+        </h3>
+        <button type="button" onclick="closeModal('modal-add-invoice')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+      <form onsubmit="submitAddInvoice(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">শিক্ষার্থী নির্বাচন *</label>
+          <select id="add-inv-student" class="w-full text-xs border rounded-lg p-2.5 font-bold">
+            <option value="STD-2024-508">মুহাম্মদ রায়হান আহমেদ (STD-2024-508)</option>
+            <option value="STD-2024-509">আবদুল্লাহ আল মামুন (STD-2024-509)</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">ফি বিবরণ *</label>
+          <input type="text" id="add-inv-title" required value="মাসিক বেতন ও আইসিটি চার্জ" class="w-full text-xs border rounded-lg p-2.5">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">মাস *</label>
+            <input type="text" id="add-inv-month" required value="নভেম্বর ২০২৬" class="w-full text-xs border rounded-lg p-2.5">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">টাকার পরিমাণ (৳) *</label>
+            <input type="number" id="add-inv-amount" required value="1500" class="w-full text-xs border rounded-lg p-2.5 font-bold text-emerald-800">
+          </div>
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-add-invoice')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">বাতিল</button>
+          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2 rounded-xl text-xs shadow transition">ইনভয়েস জেনারেট করুন</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 9. Collect Payment Modal -->
+  <div id="modal-collect-payment" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 shadow-2xl border">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-receipt text-emerald-700"></i> ফি আদায় ও মানি রিসিট প্রদান
+        </h3>
+        <button type="button" onclick="closeModal('modal-collect-payment')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+      <form onsubmit="submitCollectPayment(event)" class="space-y-3">
+        <input type="hidden" id="collect-inv-id">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">আদায়যোগ্য পরিমাণ (৳) *</label>
+          <input type="number" id="collect-inv-amount" required class="w-full text-xs border rounded-lg p-2.5 font-extrabold text-emerald-800 text-lg">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">পেমেন্ট মেথড *</label>
+          <select id="collect-inv-method" class="w-full text-xs border rounded-lg p-2.5 font-bold">
+            <option value="নগদ (Cash)">নগদ ক্যাশ কাউন্টার</option>
+            <option value="bKash">bKash (01581703822)</option>
+            <option value="Nagad">Nagad</option>
+            <option value="Rocket">Rocket</option>
+          </select>
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-collect-payment')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">বাতিল</button>
+          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2 rounded-xl text-xs shadow transition">পেমেন্ট নিশ্চিত করুন ও রসিদ প্রিন্ট</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 10. Add Academic Class Modal -->
+  <div id="modal-add-class" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-school text-emerald-700"></i> নতুন শ্রেণি / জামাত যোগ করুন
+        </h3>
+        <button type="button" onclick="closeModal('modal-add-class')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+      <form onsubmit="submitAddClass(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">শ্রেণির নাম *</label>
+          <input type="text" id="add-cls-name" required placeholder="যেমন: আলিম ২য় বর্ষ" class="w-full text-xs border rounded-lg p-2.5 font-bold">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">জামাত / ধাপ *</label>
+            <input type="text" id="add-cls-jamat" required placeholder="উচ্চ মাধ্যমিক / প্রাথমিক" class="w-full text-xs border rounded-lg p-2.5">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">আসন ক্যাপাসিটি *</label>
+            <input type="number" id="add-cls-capacity" required value="40" class="w-full text-xs border rounded-lg p-2.5 font-bold">
+          </div>
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-add-class')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">বাতিল</button>
+          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2 rounded-xl text-xs shadow transition">সংরক্ষণ করুন</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 11. Add Subject Modal -->
+  <div id="modal-add-subject" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-book text-emerald-700"></i> নতুন বিষয় ও শিক্ষক বরাদ্দ
+        </h3>
+        <button type="button" onclick="closeModal('modal-add-subject')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+      <form onsubmit="submitAddSubject(event)" class="space-y-3">
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">বিষয় কোড *</label>
+            <input type="text" id="add-sub-code" required placeholder="১০৯" class="w-full text-xs border rounded-lg p-2.5 font-mono">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">পূর্ণমান *</label>
+            <input type="number" id="add-sub-total" required value="100" class="w-full text-xs border rounded-lg p-2.5 font-bold">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">বিষয়ের নাম *</label>
+          <input type="text" id="add-sub-name" required placeholder="যেমন: পৌরনীতি ও নাগরিকতা" class="w-full text-xs border rounded-lg p-2.5 font-bold">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">নির্ধারিত শিক্ষক *</label>
+          <input type="text" id="add-sub-teacher" required placeholder="শিক্ষকের নাম" class="w-full text-xs border rounded-lg p-2.5">
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-add-subject')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">বাতিল</button>
+          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2 rounded-xl text-xs shadow transition">সংরক্ষণ করুন</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 12. Add Library Book Modal -->
+  <div id="modal-add-book" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-book-bookmark text-emerald-700"></i> নতুন কিতাব / বই ক্যাটালগে এন্ট্রি
+        </h3>
+        <button type="button" onclick="closeModal('modal-add-book')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+      <form onsubmit="submitAddBook(event)" class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">কিতাবের নাম *</label>
+          <input type="text" id="add-bk-title" required placeholder="যেমন: সহীহ মুসলিম শরীফ" class="w-full text-xs border rounded-lg p-2.5 font-bold">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">লেখক / মুসান্নিফ *</label>
+          <input type="text" id="add-bk-author" required placeholder="ইমাম মুসলিম (রহ.)" class="w-full text-xs border rounded-lg p-2.5">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">বিষয় / শ্রেণি *</label>
+            <input type="text" id="add-bk-cat" required placeholder="হাদিস শাস্ত্র" class="w-full text-xs border rounded-lg p-2.5">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">তাক নম্বর (Shelf)</label>
+            <input type="text" id="add-bk-shelf" required value="ক-০৩" class="w-full text-xs border rounded-lg p-2.5 font-mono">
+          </div>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">মোট কপি সংখ্যা *</label>
+          <input type="number" id="add-bk-copies" required value="10" class="w-full text-xs border rounded-lg p-2.5 font-bold">
+        </div>
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-add-book')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-xs transition">বাতিল</button>
+          <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2 rounded-xl text-xs shadow transition">লাইব্রেরিতে যুক্ত করুন</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 13. Review Admission Modal -->
+  <div id="modal-review-admission" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-2xl max-w-xl w-full p-6 space-y-4 shadow-2xl border">
+      <div class="flex justify-between items-center border-b pb-3">
+        <h3 class="font-bold text-sm text-slate-900 flex items-center gap-2">
+          <i class="fa-solid fa-file-signature text-emerald-700"></i> অনলাইন ভর্তি আবেদন পর্যালোচনা
+        </h3>
+        <button type="button" onclick="closeModal('modal-review-admission')" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+      </div>
+      <div id="review-adm-content" class="space-y-3 text-xs"></div>
+    </div>
+  </div>
+
+  </div>
+
   <script>
 
 const DEFAULT_MADRASAH_DATA = {
@@ -2150,7 +2672,6 @@ function renderAdminPanel(activeModule) {
   const smsLogs = db.smsLogs;
   const supportTickets = db.supportTickets;
 
-  // Module Bengali Names for Breadcrumb
   const moduleNames = {
     dashboard: "ড্যাশবোর্ড ও অ্যানালিটিক্স",
     cms: "পেজ বিল্ডার ও সিএমএস",
@@ -2200,7 +2721,6 @@ function renderAdminPanel(activeModule) {
 
       <!-- Right Action Items -->
       <div class="flex items-center gap-3">
-        <!-- Live Time & Location Badge -->
         <div class="hidden lg:flex items-center gap-2 text-xs text-slate-600 bg-slate-50 px-3 py-1 rounded-lg border">
           <i class="fa-solid fa-location-dot text-amber-500"></i>
           <span>পদুয়ার বাজার, কুমিল্লা</span>
@@ -2209,17 +2729,14 @@ function renderAdminPanel(activeModule) {
           <span id="admin-live-time">সক্রিয়</span>
         </div>
 
-        <!-- Quick Theme Switcher Pill -->
         <button onclick="navigateAdmin('appearance')" class="p-1.5 rounded-lg text-slate-600 hover:text-emerald-700 hover:bg-slate-50 border transition" title="থিম পরিবর্তন">
           <i class="fa-solid fa-palette text-sm"></i>
         </button>
 
-        <!-- Quick Backup Button -->
         <button onclick="handleExportBackup()" class="hidden md:inline-flex items-center gap-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold transition shadow-xs">
           <i class="fa-solid fa-download"></i> ব্যাকআপ
         </button>
 
-        <!-- User Profile Pill -->
         <div class="flex items-center gap-2 pl-2 border-l border-slate-200">
           <div class="w-8 h-8 rounded-full bg-emerald-800 text-white flex items-center justify-center font-bold text-xs border-2 border-amber-400">
             A
@@ -2239,7 +2756,6 @@ function renderAdminPanel(activeModule) {
       <!-- Left Sidebar (All 22 Modules Grouped) -->
       <aside class="w-full md:w-64 bg-slate-900 text-slate-300 p-3 space-y-4 shrink-0 max-h-screen overflow-y-auto">
         
-        <!-- Sidebar Brand -->
         <div class="p-2 border-b border-slate-800 flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-lg bg-emerald-700 flex items-center justify-center text-white text-lg border border-amber-400">
             <i class="fa-solid fa-mosque"></i>
@@ -2357,18 +2873,20 @@ function renderAdminPanel(activeModule) {
         ${renderActiveModuleBody(currentTab, inst, stats, students, teachers, notices, admissions, invoices, books, rooms, routes, donations, auditLogs, cmsPages, academicClasses, subjects, feeStructures, cashbook, smsLogs, supportTickets)}
       </main>
     </div>
+
+    <!-- PERSISTENT GLOBAL ADMIN MODALS HUB (Always in DOM) -->
+    ${renderGlobalAdminModals()}
+
   </div>
   `;
 }
 
 function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, admissions, invoices, books, rooms, routes, donations, auditLogs, cmsPages, academicClasses, subjects, feeStructures, cashbook, smsLogs, supportTickets) {
 
-  // 5.1 Dashboard & Executive Analytics
+  // 5.1 Dashboard
   if (tab === 'dashboard') {
     return `
     <div class="space-y-6">
-      
-      <!-- Top Welcome Banner with Quick Actions -->
       <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-950 text-white rounded-2xl p-6 shadow-md border border-emerald-700/60 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
         <div class="space-y-1">
           <div class="inline-flex items-center gap-1.5 text-xs text-amber-300 font-bold bg-amber-400/20 px-2.5 py-0.5 rounded-full border border-amber-400/30">
@@ -2378,19 +2896,18 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
           <p class="text-xs text-emerald-100">${inst.address} | EIIN: ${inst.eiin}</p>
         </div>
         <div class="flex flex-wrap gap-2">
-          <button onclick="openModal('add-student-modal')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-3.5 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow">
+          <button type="button" onclick="openModal('modal-add-student')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-3.5 py-2 rounded-xl text-xs transition flex items-center gap-1.5 shadow">
             <i class="fa-solid fa-user-plus"></i> শিক্ষার্থী ভর্তি
           </button>
-          <button onclick="openModal('add-notice-modal')" class="bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-3.5 py-2 rounded-xl text-xs transition flex items-center gap-1.5 border border-emerald-500 shadow">
+          <button type="button" onclick="openModal('modal-add-notice')" class="bg-emerald-700 hover:bg-emerald-600 text-white font-bold px-3.5 py-2 rounded-xl text-xs transition flex items-center gap-1.5 border border-emerald-500 shadow">
             <i class="fa-solid fa-bullhorn"></i> নতুন নোটিশ
           </button>
-          <button onclick="navigateAdmin('sms')" class="bg-white/10 hover:bg-white/20 text-white font-bold px-3.5 py-2 rounded-xl text-xs transition flex items-center gap-1.5 border border-white/20">
+          <button type="button" onclick="navigateAdmin('sms')" class="bg-white/10 hover:bg-white/20 text-white font-bold px-3.5 py-2 rounded-xl text-xs transition flex items-center gap-1.5 border border-white/20">
             <i class="fa-solid fa-paper-plane"></i> বাল্ক এসএমএস
           </button>
         </div>
       </div>
 
-      <!-- 6 Executive KPI Metric Cards with Glowing Rings -->
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition">
           <div class="flex items-center justify-between">
@@ -2447,10 +2964,7 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
         </div>
       </div>
 
-      <!-- Financial Chart & Attendance Distribution in Pure CSS Visuals -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- Monthly Financial Comparison Visual Bar Chart -->
         <div class="lg:col-span-8 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
           <div class="flex justify-between items-center border-b pb-3">
             <div>
@@ -2482,20 +2996,9 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
                 <div class="bg-gradient-to-r from-blue-600 to-blue-500 h-full rounded-full" style="width: 66.2%;"></div>
               </div>
             </div>
-
-            <div>
-              <div class="flex justify-between text-xs font-bold mb-1">
-                <span class="text-slate-700">বকেয়া পাওনা (Dues Receivable)</span>
-                <span class="text-amber-700 font-mono">৳ ১,৮৫,২০০ (১৩.০%)</span>
-              </div>
-              <div class="w-full bg-slate-100 rounded-full h-3.5 overflow-hidden p-0.5">
-                <div class="bg-gradient-to-r from-amber-500 to-amber-400 h-full rounded-full" style="width: 13%;"></div>
-              </div>
-            </div>
           </div>
         </div>
 
-        <!-- Student Attendance Meter -->
         <div class="lg:col-span-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
           <div class="border-b pb-3">
             <h3 class="font-bold text-sm text-slate-900">আজকের শিক্ষার্থী উপস্থিতি হার</h3>
@@ -2507,42 +3010,9 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
               <span class="text-2xl font-black text-slate-900">৯৬.৪%</span>
             </div>
             <p class="text-xs font-bold text-emerald-800">১,৭৮৩ জন উপস্থিত / ১,৮৫০ জন</p>
-            <p class="text-[11px] text-slate-500">অনুপস্থিত: ৪২ জন | ছুটি: ২৫ জন</p>
           </div>
         </div>
-
       </div>
-
-      <!-- Recent Audit Log Table -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-xs p-5 space-y-3">
-        <div class="flex justify-between items-center border-b pb-2">
-          <h3 class="font-bold text-xs text-slate-900 flex items-center gap-1.5">
-            <i class="fa-solid fa-clock-rotate-left text-emerald-700"></i> সাম্প্রতিক নিরাপত্তা ও সিস্টেম অডিট লগ
-          </h3>
-          <span class="text-[11px] text-slate-400">রিয়েল-টাইম আইপি মনিটরিং</span>
-        </div>
-        <table class="w-full text-left text-xs">
-          <thead class="bg-slate-50 border-b">
-            <tr>
-              <th class="p-2 font-bold">তারিখ ও সময়</th>
-              <th class="p-2 font-bold">ইউজার</th>
-              <th class="p-2 font-bold">সম্পাদিত কাজ (Action)</th>
-              <th class="p-2 font-bold font-mono">আইপি এড্রেস</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100">
-            ${auditLogs.map(l => `
-              <tr>
-                <td class="p-2 font-mono text-slate-500">${l.time}</td>
-                <td class="p-2 font-bold text-slate-800">${l.user}</td>
-                <td class="p-2 text-slate-700">${l.action}</td>
-                <td class="p-2 font-mono text-slate-500">${l.ip}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
-
     </div>
     `;
   }
@@ -2556,7 +3026,7 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
           <h2 class="text-lg font-bold text-slate-900">৫.২ ওয়েবসাইট পেজ বিল্ডার ও সিএমএস</h2>
           <p class="text-xs text-slate-500">ওয়েবসাইটের সকল পেজ ও কনটেন্ট পরিচালনা করুন</p>
         </div>
-        <button onclick="openModal('add-page-modal')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
+        <button type="button" onclick="showToast('নতুন পেজ তৈরি উইন্ডো')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
           <i class="fa-solid fa-plus"></i> নতুন পেজ তৈরি
         </button>
       </div>
@@ -2569,7 +3039,7 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
               <th class="p-3 font-bold font-mono">স্লাগ (URL)</th>
               <th class="p-3 font-bold text-center">স্ট্যাটাস</th>
               <th class="p-3 font-bold">সর্বশেষ আপডেট</th>
-              <th class="p-3 font-bold text-center">ভিজিটর সংখ্যা</th>
+              <th class="p-3 font-bold text-center">ভিজিটর</th>
               <th class="p-3 font-bold text-right">পদক্ষেপ</th>
             </tr>
           </thead>
@@ -2584,114 +3054,78 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
                 <td class="p-3 text-slate-500">${pg.updated}</td>
                 <td class="p-3 text-center font-mono font-bold">${pg.views.toLocaleString()}</td>
                 <td class="p-3 text-right">
-                  <button onclick="openEditPageModal('${pg.id}', '${pg.title}')" class="text-emerald-700 hover:underline font-bold px-2 py-1"><i class="fa-solid fa-pen-to-square"></i> সম্পাদনা</button>
+                  <button type="button" onclick="openEditPageModal('${pg.id}', '${pg.title}')" class="text-emerald-700 hover:bg-emerald-50 px-2 py-1 rounded font-bold text-xs"><i class="fa-solid fa-pen-to-square mr-1"></i> এডিট</button>
                 </td>
               </tr>
             `).join('')}
           </tbody>
         </table>
       </div>
-
-      <!-- Homepage Section Toggles -->
-      <div class="bg-white rounded-2xl border p-5 shadow-xs space-y-3">
-        <h3 class="font-bold text-sm text-slate-900 border-b pb-2">হোমপেজ সেকশন সমূহের দৃশ্যমানতা নিয়ন্ত্রণ</h3>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-          ${db.cmsSections.map(sec => `
-            <div class="flex items-center justify-between p-3 rounded-xl border bg-slate-50">
-              <span class="text-xs font-semibold text-slate-800">${sec.name}</span>
-              <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" checked onchange="toggleCmsSection('${sec.id}')" class="sr-only peer">
-                <div class="w-9 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-emerald-600"></div>
-              </label>
-            </div>
-          `).join('')}
-        </div>
-      </div>
     </div>
     `;
   }
 
-  // 5.3 Appearance & Branding
+  // 5.3 Appearance
   if (tab === 'appearance') {
     return `
     <div class="space-y-6 max-w-4xl">
       <div class="border-b pb-3">
         <h2 class="text-lg font-bold text-slate-900">৫.৩ ডিজাইন, থিম ও ব্র্যান্ডিং কনফিগারেশন</h2>
-        <p class="text-xs text-slate-500">ওয়েবসাইটের রং, লোগো ও নান্দনিক স্টাইলিং কাস্টমাইজ করুন</p>
+        <p class="text-xs text-slate-500">ওয়েবসাইটের কালার থিম লাইভ পরিবর্তন করুন</p>
       </div>
 
-      <div class="bg-white rounded-2xl border p-6 shadow-xs space-y-6">
-        <div class="space-y-3">
-          <label class="block text-xs font-bold text-slate-800 uppercase tracking-wide">১. ওয়েবসাইটের কালার থিম নির্বাচন করুন (এক ক্লিকে লাইভ পরিবর্তন):</label>
-          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            
-            <button onclick="switchAppTheme('emerald')" class="p-4 rounded-2xl border-2 ${inst.currentTheme === 'emerald' ? 'border-emerald-700 bg-emerald-50/60 shadow-md ring-2 ring-emerald-400' : 'border-slate-200'} text-left space-y-2 transition">
-              <div class="flex items-center gap-2">
-                <div class="w-6 h-6 rounded-full bg-emerald-800 border-2 border-amber-400"></div>
-                <span class="font-bold text-xs text-slate-900">ক্লাসিক ইসলামিক এমারেল্ড</span>
-              </div>
-              <p class="text-[11px] text-slate-500">চিরন্তন দ্বীনি সৌন্দর্য, গভীর সবুজ ও স্বর্ণালী ছোঁয়া।</p>
-            </button>
-
-            <button onclick="switchAppTheme('navy')" class="p-4 rounded-2xl border-2 ${inst.currentTheme === 'navy' ? 'border-blue-700 bg-blue-50/60 shadow-md ring-2 ring-blue-400' : 'border-slate-200'} text-left space-y-2 transition">
-              <div class="flex items-center gap-2">
-                <div class="w-6 h-6 rounded-full bg-slate-900 border-2 border-blue-500"></div>
-                <span class="font-bold text-xs text-slate-900">রয়েল নেভি ও গোল্ড</span>
-              </div>
-              <p class="text-[11px] text-slate-500">আধুনিক প্রাতিষ্ঠানিক ও আন্তর্জাতিক প্রিমিয়াম লুক।</p>
-            </button>
-
-            <button onclick="switchAppTheme('sunset')" class="p-4 rounded-2xl border-2 ${inst.currentTheme === 'sunset' ? 'border-amber-700 bg-amber-50/60 shadow-md ring-2 ring-amber-400' : 'border-slate-200'} text-left space-y-2 transition">
-              <div class="flex items-center gap-2">
-                <div class="w-6 h-6 rounded-full bg-amber-800 border-2 border-amber-300"></div>
-                <span class="font-bold text-xs text-slate-900">গোল্ডেন সানসেট ও স্যান্ড</span>
-              </div>
-              <p class="text-[11px] text-slate-500">উষ্ণ, প্রদীপ্ত ও আভিজাত্যের নিখুঁত আবহ।</p>
-            </button>
-
-          </div>
-        </div>
-
-        <div class="border-t pt-4 space-y-3">
-          <h4 class="font-bold text-xs text-slate-800">২. টাইপোগ্রাফি ও ফন্ট সেটিংস</h4>
-          <div class="grid grid-cols-2 gap-3 text-xs">
-            <div class="p-3 rounded-xl border bg-slate-50">
-              <span class="text-slate-500 block text-[10px]">বাংলা ফন্ট:</span>
-              <strong class="text-slate-800 text-sm">Hind Siliguri (Google Fonts)</strong>
+      <div class="bg-white rounded-2xl border p-6 shadow-xs space-y-4">
+        <label class="block text-xs font-bold text-slate-800 uppercase tracking-wide">১. ওয়েবসাইটের কালার থিম নির্বাচন করুন (এক ক্লিকে লাইভ পরিবর্তন):</label>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <button type="button" onclick="switchAppTheme('emerald')" class="p-4 rounded-2xl border-2 text-left space-y-2 hover:border-emerald-600 transition">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded-full bg-emerald-800 border-2 border-amber-400"></div>
+              <span class="font-bold text-xs text-slate-900">ক্লাসিক ইসলামিক এমারেল্ড</span>
             </div>
-            <div class="p-3 rounded-xl border bg-slate-50">
-              <span class="text-slate-500 block text-[10px]">ইংরেজি ফন্ট:</span>
-              <strong class="text-slate-800 text-sm">Outfit & Inter</strong>
+            <p class="text-[11px] text-slate-500">গভীর সবুজ ও স্বর্ণালী ছোঁয়া।</p>
+          </button>
+          <button type="button" onclick="switchAppTheme('navy')" class="p-4 rounded-2xl border-2 text-left space-y-2 hover:border-blue-600 transition">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded-full bg-slate-900 border-2 border-blue-500"></div>
+              <span class="font-bold text-xs text-slate-900">রয়েল নেভি ও গোল্ড</span>
             </div>
-          </div>
+            <p class="text-[11px] text-slate-500">আন্তর্জাতিক প্রিমিয়াম লুক।</p>
+          </button>
+          <button type="button" onclick="switchAppTheme('sunset')" class="p-4 rounded-2xl border-2 text-left space-y-2 hover:border-amber-600 transition">
+            <div class="flex items-center gap-2">
+              <div class="w-6 h-6 rounded-full bg-amber-800 border-2 border-amber-300"></div>
+              <span class="font-bold text-xs text-slate-900">গোল্ডেন সানসেট</span>
+            </div>
+            <p class="text-[11px] text-slate-500">উষ্ণ ও প্রদীপ্ত আবহ।</p>
+          </button>
         </div>
       </div>
     </div>
     `;
   }
 
-  // 5.4 SEO & Analytics
+  // 5.4 SEO Settings Form
   if (tab === 'seo') {
     return `
     <div class="space-y-6 max-w-3xl">
       <div class="border-b pb-3">
         <h2 class="text-lg font-bold text-slate-900">৫.৪ সার্চ ইঞ্জিন অপ্টিমাইজেশন (SEO) ও মেটাডেটা</h2>
-        <p class="text-xs text-slate-500">গুগল ও সার্চ ইঞ্জিনে মাদ্রাসার র‍্যাংকিং উন্নত করার সেটিংস</p>
+        <p class="text-xs text-slate-500">গুগল সার্চে মাদ্রাসার র‍্যাংকিং সেটিংস</p>
       </div>
 
-      <div class="bg-white rounded-2xl border p-6 shadow-xs space-y-4">
+      <div class="bg-white rounded-2xl border p-6 shadow-xs">
         <form onsubmit="handleSaveSeo(event)" class="space-y-3">
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">গ্লোবাল মেটা টাইটেল (Meta Title) *</label>
+            <label class="block text-xs font-bold text-slate-700 mb-1">গ্লোবাল মেটা টাইটেল *</label>
             <input type="text" id="seo-title" value="${db.seoSettings.metaTitle}" class="w-full text-xs border rounded-lg p-2.5 font-bold">
           </div>
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1">মেটা ডেসক্রিপশন (Meta Description) *</label>
+            <label class="block text-xs font-bold text-slate-700 mb-1">মেটা ডেসক্রিপশন *</label>
             <textarea id="seo-desc" rows="2" class="w-full text-xs border rounded-lg p-2.5">${db.seoSettings.metaDesc}</textarea>
           </div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">সার্চ কি-ওয়ার্ডস (Keywords) *</label>
+              <label class="block text-xs font-bold text-slate-700 mb-1">সার্চ কি-ওয়ার্ডস *</label>
               <input type="text" id="seo-keywords" value="${db.seoSettings.keywords}" class="w-full text-xs border rounded-lg p-2.5">
             </div>
             <div>
@@ -2703,9 +3137,6 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
             <button type="submit" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-4 py-2 rounded-xl text-xs shadow transition">
               এসইও সেটিংস সংরক্ষণ
             </button>
-            <button type="button" onclick="showToast('Sitemap.xml স্বয়ংক্রিয়ভাবে জেনারেট হয়েছে!')" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-4 py-2 rounded-xl text-xs transition">
-              সাইটম্যাপ রিফ্রেশ
-            </button>
           </div>
         </form>
       </div>
@@ -2713,50 +3144,45 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
     `;
   }
 
-  // 5.5 Academic Management
+  // 5.5 Academics Management
   if (tab === 'academics') {
     return `
     <div class="space-y-6">
       <div class="flex justify-between items-center border-b pb-3">
         <div>
-          <h2 class="text-lg font-bold text-slate-900">৫.৫ একাডেমিক ব্যবস্থাপনা (শ্রেণি, শাখা ও বিষয়)</h2>
-          <p class="text-xs text-slate-500">মাদ্রাসার সকল জামাত, বিষয় বণ্টন ও পাঠ পরিকল্পনা</p>
+          <h2 class="text-lg font-bold text-slate-900">৫.৫ একাডেমিক শ্রেণি, জামাত ও বিষয় ব্যবস্থাপনা</h2>
+          <p class="text-xs text-slate-500">মাদ্রাসার সকল শ্রেণি ও পাঠ্যসূচি</p>
         </div>
-        <button onclick="showToast('নতুন শ্রেণি যোগ করার উইন্ডো')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold shadow transition flex items-center gap-1.5">
+        <button type="button" onclick="openModal('modal-add-class')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold shadow transition flex items-center gap-1.5">
           <i class="fa-solid fa-plus"></i> নতুন শ্রেণি যোগ
         </button>
       </div>
 
-      <!-- Classes & Jamats Grid -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         ${academicClasses.map(cls => `
-          <div class="bg-white p-5 rounded-2xl border shadow-xs space-y-3">
-            <div class="flex justify-between items-start">
-              <div>
-                <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">${cls.jamat}</span>
-                <h3 class="text-base font-bold text-slate-900 mt-1">${cls.name}</h3>
-              </div>
-              <span class="text-xs font-mono font-bold text-slate-400">${cls.students}/${cls.capacity}</span>
-            </div>
-            <p class="text-xs text-slate-500">শাখা সমূহ: <strong class="text-slate-700">${cls.sections.join(', ')}</strong></p>
-            <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden">
-              <div class="bg-emerald-600 h-full rounded-full" style="width: ${(cls.students/cls.capacity)*100}%;"></div>
-            </div>
+          <div class="bg-white p-5 rounded-2xl border shadow-xs space-y-2">
+            <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">${cls.jamat}</span>
+            <h3 class="text-base font-bold text-slate-900">${cls.name}</h3>
+            <p class="text-xs text-slate-500">আসন ক্যাপাসিটি: <strong class="text-slate-800 font-mono">${cls.capacity} জন</strong></p>
           </div>
         `).join('')}
       </div>
 
-      <!-- Subjects Table -->
       <div class="bg-white rounded-2xl border shadow-xs p-5 space-y-3">
-        <h3 class="font-bold text-sm text-slate-900 border-b pb-2">বিষয়সমূহ ও নম্বর বিভাজন (দাখিল ১০ম শ্রেণি)</h3>
+        <div class="flex justify-between items-center border-b pb-2">
+          <h3 class="font-bold text-sm text-slate-900">বিষয়সমূহ ও নম্বর বিভাজন (দাখিল ১০ম শ্রেণি)</h3>
+          <button type="button" onclick="openModal('modal-add-subject')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3 py-1 rounded text-xs font-bold transition flex items-center gap-1">
+            <i class="fa-solid fa-plus"></i> নতুন বিষয়
+          </button>
+        </div>
         <table class="w-full text-left text-xs">
           <thead class="bg-slate-50 border-b">
             <tr>
               <th class="p-2.5 font-bold">বিষয় কোড ও নাম</th>
               <th class="p-2.5 font-bold">নির্ধারিত শিক্ষক</th>
               <th class="p-2.5 font-bold text-center">পূর্ণমান</th>
-              <th class="p-2.5 font-bold text-center">সৃজনশীল (CQ)</th>
-              <th class="p-2.5 font-bold text-center">নৈর্ব্যক্তিক (MCQ)</th>
+              <th class="p-2.5 font-bold text-center">CQ</th>
+              <th class="p-2.5 font-bold text-center">MCQ</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100">
@@ -2776,7 +3202,56 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
     `;
   }
 
-  // 5.7 Teacher & HR Management
+  // 5.6 Student Management
+  if (tab === 'students') {
+    return `
+    <div class="space-y-6">
+      <div class="flex justify-between items-center border-b pb-3">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">৫.৬ শিক্ষার্থী ব্যবস্থাপনা (Student Directory)</h2>
+          <p class="text-xs text-slate-500">সকল শিক্ষার্থীর পূর্ণাঙ্গ বায়োডাটা, আইডি কার্ড ও তথ্য সম্পাদনা</p>
+        </div>
+        <button type="button" onclick="openModal('modal-add-student')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
+          <i class="fa-solid fa-plus"></i> নতুন শিক্ষার্থী ভর্তি
+        </button>
+      </div>
+
+      <div class="bg-white rounded-2xl border shadow-xs overflow-hidden">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-50 border-b">
+            <tr>
+              <th class="p-3 font-bold">রোল ও আইডি</th>
+              <th class="p-3 font-bold">শিক্ষার্থীর নাম</th>
+              <th class="p-3 font-bold">শ্রেণি ও শাখা</th>
+              <th class="p-3 font-bold">পিতা ও মোবাইল</th>
+              <th class="p-3 font-bold text-center">উপস্থিতি</th>
+              <th class="p-3 font-bold text-center">বকেয়া</th>
+              <th class="p-3 font-bold text-right">পদক্ষেপ</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            ${students.map(st => `
+              <tr class="hover:bg-slate-50">
+                <td class="p-3 font-mono font-bold text-emerald-800">${st.id}<br><span class="text-[10px] text-slate-500 font-sans">রোল: ${st.roll}</span></td>
+                <td class="p-3 font-bold text-slate-900">${st.name}</td>
+                <td class="p-3 font-semibold text-slate-700">${st.class} (${st.section})</td>
+                <td class="p-3">${st.father}<br><span class="text-emerald-700 font-mono">${st.guardian_phone}</span></td>
+                <td class="p-3 text-center font-bold text-emerald-700">${st.attendance_pct}%</td>
+                <td class="p-3 text-center font-bold ${st.dues > 0 ? 'text-amber-600' : 'text-emerald-700'}">৳ ${st.dues}</td>
+                <td class="p-3 text-right space-x-1">
+                  <button type="button" onclick="openEditStudentModal('${st.id}')" class="text-emerald-700 hover:bg-emerald-50 px-2 py-1 rounded font-bold text-xs transition"><i class="fa-solid fa-pen-to-square mr-1"></i> এডিট</button>
+                  <button type="button" onclick="navigateTo('/portal/id-card')" class="p-1 text-blue-600 hover:bg-blue-50 rounded" title="আইডি কার্ড"><i class="fa-solid fa-id-card"></i></button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    `;
+  }
+
+  // 5.7 Teachers & HR
   if (tab === 'hr') {
     return `
     <div class="space-y-6">
@@ -2785,7 +3260,7 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
           <h2 class="text-lg font-bold text-slate-900">৫.৭ শিক্ষক, কর্মকর্তা ও এইচআর ব্যবস্থাপনা</h2>
           <p class="text-xs text-slate-500">অনুষদ সদস্য, পদবী, শিক্ষাগত যোগ্যতা ও বেতন বিবরণী</p>
         </div>
-        <button onclick="openModal('add-teacher-modal')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold shadow transition flex items-center gap-1.5">
+        <button type="button" onclick="openModal('modal-add-teacher')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold shadow transition flex items-center gap-1.5">
           <i class="fa-solid fa-user-plus"></i> নতুন শিক্ষক যোগ
         </button>
       </div>
@@ -2797,9 +3272,8 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
               <th class="p-3 font-bold">আইডি</th>
               <th class="p-3 font-bold">শিক্ষক পরিচিতি</th>
               <th class="p-3 font-bold">বিভাগ ও পদবী</th>
-              <th class="p-3 font-bold">যোগ্যতা ও অভিজ্ঞতা</th>
               <th class="p-3 font-bold">মোবাইল</th>
-              <th class="p-3 font-bold text-center">বেতন স্কেল</th>
+              <th class="p-3 font-bold text-center">বেতন</th>
               <th class="p-3 font-bold text-right">পদক্ষেপ</th>
             </tr>
           </thead>
@@ -2807,21 +3281,12 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
             ${teachers.map(t => `
               <tr class="hover:bg-slate-50">
                 <td class="p-3 font-mono font-bold text-emerald-800">${t.id}</td>
-                <td class="p-3">
-                  <div class="flex items-center gap-2.5">
-                    <img src="${t.photo}" class="w-8 h-8 rounded-full object-cover border">
-                    <div>
-                      <p class="font-bold text-slate-900">${t.name}</p>
-                      <p class="text-[10px] text-slate-500">${t.email}</p>
-                    </div>
-                  </div>
-                </td>
-                <td class="p-3 font-semibold text-slate-800">${t.designation}<br><span class="text-[10px] text-slate-500 font-sans">${t.department}</span></td>
-                <td class="p-3 text-slate-600">${t.qualification}<br><span class="text-[10px] text-emerald-700">অভিজ্ঞতা: ${t.experience}</span></td>
+                <td class="p-3 font-bold text-slate-900">${t.name}</td>
+                <td class="p-3 font-semibold text-slate-800">${t.designation} (${t.department})</td>
                 <td class="p-3 font-mono text-emerald-700">${t.phone}</td>
                 <td class="p-3 text-center font-bold font-mono">৳ ${t.salary}</td>
                 <td class="p-3 text-right">
-                  <button onclick="showToast('${t.name} প্রোফাইল লোড হচ্ছে')" class="text-emerald-700 font-bold hover:underline"><i class="fa-solid fa-eye"></i> বিস্তারিত</button>
+                  <button type="button" onclick="openEditTeacherModal('${t.id}')" class="text-emerald-700 hover:bg-emerald-50 px-2.5 py-1 rounded font-bold text-xs transition"><i class="fa-solid fa-pen-to-square mr-1"></i> এডিট</button>
                 </td>
               </tr>
             `).join('')}
@@ -2832,502 +3297,7 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
     `;
   }
 
-  // 5.10 Attendance Management
-  if (tab === 'attendance') {
-    return `
-    <div class="space-y-6">
-      <div class="flex justify-between items-center border-b pb-3">
-        <div>
-          <h2 class="text-lg font-bold text-slate-900">৫.১০ ডিজিটাল হাজিরা ও রিপোর্ট ব্যবস্থাপনা</h2>
-          <p class="text-xs text-slate-500">ক্লাস-ভিত্তিক দৈনিক হাজিরা সারাংশ ও শতকরা হার</p>
-        </div>
-        <button onclick="showToast('হাজিরা রিপোর্ট এক্সেল ফরম্যাটে ডাউনলোড হচ্ছে...')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold shadow transition flex items-center gap-1.5">
-          <i class="fa-solid fa-file-excel"></i> রিপোর্ট এক্সপোর্ট
-        </button>
-      </div>
-
-      <div class="bg-white rounded-2xl border shadow-xs p-5 space-y-4">
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          ${academicClasses.map(ac => `
-            <div class="p-4 rounded-xl border bg-slate-50 space-y-2">
-              <h4 class="font-bold text-xs text-slate-900">${ac.name}</h4>
-              <div class="flex justify-between text-xs text-slate-600">
-                <span>আজকের উপস্থিতি:</span>
-                <strong class="text-emerald-700 font-bold font-mono">৯৭.২%</strong>
-              </div>
-              <div class="w-full bg-slate-200 rounded-full h-2">
-                <div class="bg-emerald-600 h-full rounded-full" style="width: 97.2%;"></div>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    </div>
-    `;
-  }
-
-  // 5.13 Library Management
-  if (tab === 'library') {
-    return `
-    <div class="space-y-6">
-      <div class="flex justify-between items-center border-b pb-3">
-        <div>
-          <h2 class="text-lg font-bold text-slate-900">৫.১৩ লাইব্রেরি ও কিতাব সংরক্ষণ ব্যবস্থাপনা</h2>
-          <p class="text-xs text-slate-500">৫,০০০+ কিতাব ক্যাটালগ ও বই ইস্যু-রিটার্ন রেজিস্টার</p>
-        </div>
-        <button onclick="showToast('নতুন কিতাব এন্ট্রি উইন্ডো')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold shadow transition flex items-center gap-1.5">
-          <i class="fa-solid fa-plus"></i> কিতাব যোগ করুন
-        </button>
-      </div>
-
-      <div class="bg-white rounded-2xl border shadow-xs overflow-hidden">
-        <table class="w-full text-left text-xs">
-          <thead class="bg-slate-50 border-b">
-            <tr>
-              <th class="p-3 font-bold">বই কোড</th>
-              <th class="p-3 font-bold">কিতাবের নাম</th>
-              <th class="p-3 font-bold">লেখক / মুসান্নিফ</th>
-              <th class="p-3 font-bold">বিষয়</th>
-              <th class="p-3 font-bold text-center">তাক নম্বর</th>
-              <th class="p-3 font-bold text-center">মোট কপি</th>
-              <th class="p-3 font-bold text-center">মজুদ কপি</th>
-              <th class="p-3 font-bold text-right">পদক্ষেপ</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100">
-            ${books.map(b => `
-              <tr class="hover:bg-slate-50">
-                <td class="p-3 font-mono font-bold text-emerald-800">${b.id}</td>
-                <td class="p-3 font-bold text-slate-900">${b.title}</td>
-                <td class="p-3 text-slate-700">${b.author}</td>
-                <td class="p-3"><span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-[10px] font-bold">${b.category}</span></td>
-                <td class="p-3 text-center font-mono font-bold">${b.shelf}</td>
-                <td class="p-3 text-center font-mono font-bold">${b.copies}</td>
-                <td class="p-3 text-center font-mono font-bold text-emerald-700">${b.available}</td>
-                <td class="p-3 text-right">
-                  <button onclick="showToast('${b.title} বইটি ইস্যু মোডাল ওপেন হয়েছে')" class="bg-emerald-50 text-emerald-800 hover:bg-emerald-100 px-2.5 py-1 rounded font-bold text-[11px]">ইস্যু করুন</button>
-                </td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    `;
-  }
-
-  // 5.14 Hostel Management
-  if (tab === 'hostel') {
-    return `
-    <div class="space-y-6">
-      <div class="flex justify-between items-center border-b pb-3">
-        <div>
-          <h2 class="text-lg font-bold text-slate-900">৫.১৪ আবাসিক হোস্টেল ও ডাইনিং ব্যবস্থাপনা</h2>
-          <p class="text-xs text-slate-500">৩৫০+ সিটের আধুনিক ছাত্রাবাস ও আবাসিক তত্ত্বাবধান</p>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        ${rooms.map(rm => `
-          <div class="bg-white p-5 rounded-2xl border shadow-xs space-y-2.5">
-            <div class="flex justify-between items-start">
-              <span class="text-xs font-bold text-slate-900">${rm.building}</span>
-              <span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded">রুম: ${rm.room}</span>
-            </div>
-            <p class="text-xs text-slate-500">${rm.floor} | তত্ত্বাবধায়ক: ${rm.warden}</p>
-            <div class="pt-2">
-              <div class="flex justify-between text-xs font-bold mb-1">
-                <span>সিট দখল:</span>
-                <span class="font-mono">${rm.occupied} / ${rm.capacity}</span>
-              </div>
-              <div class="w-full bg-slate-100 rounded-full h-2">
-                <div class="bg-amber-500 h-full rounded-full" style="width: ${(rm.occupied/rm.capacity)*100}%;"></div>
-              </div>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-    `;
-  }
-
-  // 5.16 User & Role RBAC
-  if (tab === 'users') {
-    return `
-    <div class="space-y-6 max-w-4xl">
-      <div class="flex justify-between items-center border-b pb-3">
-        <div>
-          <h2 class="text-lg font-bold text-slate-900">৫.১৬ ইউজার অ্যাকাউন্টস ও আরবিএসি (RBAC) পারমিশন</h2>
-          <p class="text-xs text-slate-500">রোল-ভিত্তিক এক্সেস কন্ট্রোল ও পাসওয়ার্ড পলিসি</p>
-        </div>
-      </div>
-
-      <div class="bg-white rounded-2xl border shadow-xs overflow-hidden">
-        <table class="w-full text-left text-xs">
-          <thead class="bg-slate-50 border-b">
-            <tr>
-              <th class="p-3 font-bold">ইউজার আইডি</th>
-              <th class="p-3 font-bold">নাম</th>
-              <th class="p-3 font-bold">রোল</th>
-              <th class="p-3 font-bold">ইমেইল</th>
-              <th class="p-3 font-bold text-center">স্ট্যাটাস</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100">
-            ${db.users.map(u => `
-              <tr>
-                <td class="p-3 font-mono font-bold text-emerald-800">${u.id}</td>
-                <td class="p-3 font-bold text-slate-900">${u.name}</td>
-                <td class="p-3"><span class="badge-role-${u.role} px-2 py-0.5 rounded text-[10px] font-bold uppercase font-mono">${u.role}</span></td>
-                <td class="p-3 text-slate-600">${u.email}</td>
-                <td class="p-3 text-center"><span class="text-emerald-700 font-bold"><i class="fa-solid fa-circle-check"></i> সক্রিয়</span></td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    `;
-  }
-
-  // 5.17 Reports & Official Documents
-  if (tab === 'reports') {
-    return `
-    <div class="space-y-6">
-      <div class="border-b pb-3">
-        <h2 class="text-lg font-bold text-slate-900">৫.১৭ অফিশিয়াল রিপোর্টস ও প্রত্যয়ন হাব</h2>
-        <p class="text-xs text-slate-500">এক ক্লিকে প্রাতিষ্ঠানিক ডকুমেন্টস জেনারেট ও প্রিন্ট করুন</p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div class="bg-white p-5 rounded-2xl border shadow-xs space-y-3">
-          <i class="fa-solid fa-award text-2xl text-emerald-700"></i>
-          <h3 class="font-bold text-sm text-slate-900">চারিত্রিক প্রশংসাপত্র (Testimonial)</h3>
-          <p class="text-xs text-slate-500">অধ্যক্ষের স্বাক্ষর ও অফিশিয়াল সিলযুক্ত প্রশংসাপত্র।</p>
-          <button onclick="navigateTo('/portal/certificates')" class="bg-emerald-700 text-white font-bold px-3.5 py-1.5 rounded-lg text-xs hover:bg-emerald-800 transition">প্রিন্ট ভিউ</button>
-        </div>
-
-        <div class="bg-white p-5 rounded-2xl border shadow-xs space-y-3">
-          <i class="fa-solid fa-table text-2xl text-blue-700"></i>
-          <h3 class="font-bold text-sm text-slate-900">ফলাফল ট্যাবুলেশন শিট</h3>
-          <p class="text-xs text-slate-500">দাখিল নির্বাচনী পরীক্ষার পূর্ণাঙ্গ মার্কস ট্যাবুলেশন।</p>
-          <button onclick="navigateTo('/results')" class="bg-blue-700 text-white font-bold px-3.5 py-1.5 rounded-lg text-xs hover:bg-blue-800 transition">ট্যাবুলেশন শিট</button>
-        </div>
-
-        <div class="bg-white p-5 rounded-2xl border shadow-xs space-y-3">
-          <i class="fa-solid fa-id-card text-2xl text-amber-600"></i>
-          <h3 class="font-bold text-sm text-slate-900">ডিজিটাল আইডি কার্ড প্রিন্টার</h3>
-          <p class="text-xs text-slate-500">কিউআর কোডসহ উভয় পিঠের স্টুডেন্ট কার্ড।</p>
-          <button onclick="navigateTo('/portal/id-card')" class="bg-amber-600 text-white font-bold px-3.5 py-1.5 rounded-lg text-xs hover:bg-amber-700 transition">আইডি কার্ড প্রিন্ট</button>
-        </div>
-      </div>
-    </div>
-    `;
-  }
-
-  // 5.19 Integrations & API
-  if (tab === 'integrations') {
-    return `
-    <div class="space-y-6 max-w-3xl">
-      <div class="border-b pb-3">
-        <h2 class="text-lg font-bold text-slate-900">৫.১৯ পেমেন্ট গেটওয়ে, এসএমএস এপিআই ও ওয়েবহুক</h2>
-        <p class="text-xs text-slate-500">bKash, Nagad, Rocket ও বাল্ক এসএমএস সার্ভিস কনফিগারেশন</p>
-      </div>
-
-      <div class="bg-white rounded-2xl border p-6 shadow-xs space-y-4">
-        <div class="p-4 rounded-xl border bg-pink-50 border-pink-200 flex justify-between items-center">
-          <div>
-            <h4 class="font-bold text-xs text-pink-900">bKash Payment Gateway</h4>
-            <p class="text-[11px] text-pink-700">মার্চেন্ট নম্বর: 01581703822 | API Status: Active</p>
-          </div>
-          <span class="bg-pink-600 text-white px-2.5 py-0.5 rounded text-[10px] font-bold">সংযুক্ত</span>
-        </div>
-
-        <div class="p-4 rounded-xl border bg-orange-50 border-orange-200 flex justify-between items-center">
-          <div>
-            <h4 class="font-bold text-xs text-orange-900">Nagad Merchant API</h4>
-            <p class="text-[11px] text-orange-700">মার্চেন্ট আইডি: 68001 | Status: Active</p>
-          </div>
-          <span class="bg-orange-600 text-white px-2.5 py-0.5 rounded text-[10px] font-bold">সংযুক্ত</span>
-        </div>
-
-        <div class="p-4 rounded-xl border bg-emerald-50 border-emerald-200 flex justify-between items-center">
-          <div>
-            <h4 class="font-bold text-xs text-emerald-900">SMS Gateway API (BD Masking)</h4>
-            <p class="text-[11px] text-emerald-700">Sender ID: DreamLearnBD | ব্যালেন্স: ৪,৫০০ টি এসএমএস</p>
-          </div>
-          <span class="bg-emerald-700 text-white px-2.5 py-0.5 rounded text-[10px] font-bold">সক্রিয়</span>
-        </div>
-      </div>
-    </div>
-    `;
-  }
-
-  // 5.20 Security & Backup
-  if (tab === 'security') {
-    return `
-    <div class="space-y-6 max-w-3xl">
-      <div class="border-b pb-3">
-        <h2 class="text-lg font-bold text-slate-900">৫.২০ নিরাপত্তা, অডিট লগ ও ওয়ান-ক্লিক ডেটা ব্যাকআপ</h2>
-        <p class="text-xs text-slate-500">সম্পূর্ণ ডেটাবেজ ব্যাকআপ নিন ও যেকোনো সময় রিস্টোর করুন</p>
-      </div>
-
-      <div class="bg-white rounded-2xl border p-6 shadow-xs space-y-5">
-        <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between">
-          <div>
-            <h4 class="font-bold text-xs text-emerald-900">সম্পূর্ণ ডেটাবেজ ব্যাকআপ ডাউনলোড (JSON)</h4>
-            <p class="text-[11px] text-emerald-700">সকল শিক্ষার্থী, ফলাফল, ফি ও সেটিংসের সর্বশেষ স্ন্যাপশট।</p>
-          </div>
-          <button onclick="handleExportBackup()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-4 py-2 rounded-xl text-xs shadow transition flex items-center gap-1.5 shrink-0">
-            <i class="fa-solid fa-download"></i> ব্যাকআপ ডাউনলোড
-          </button>
-        </div>
-
-        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-          <div>
-            <h4 class="font-bold text-xs text-slate-900">ব্যাকআপ ফাইল থেকে ডেটা রিস্টোর</h4>
-            <p class="text-[11px] text-slate-500">পূর্বের সেভ করা JSON ফাইল আপলোড করুন।</p>
-          </div>
-          <label class="bg-slate-800 hover:bg-slate-900 text-white font-bold px-4 py-2 rounded-xl text-xs cursor-pointer transition shadow shrink-0">
-            <i class="fa-solid fa-upload"></i> ফাইল সিলেক্ট
-            <input type="file" accept=".json" onchange="handleRestoreBackup(event)" class="hidden">
-          </label>
-        </div>
-      </div>
-    </div>
-    `;
-  }
-
-  // 5.21 Support & Helpdesk
-  if (tab === 'support') {
-    return `
-    <div class="space-y-6">
-      <div class="border-b pb-3">
-        <h2 class="text-lg font-bold text-slate-900">৫.২১ হেল্পডেস্ক ও অভিভাবক সাপোর্ট টিকেটস</h2>
-        <p class="text-xs text-slate-500">অনলাইনে জমাকৃত অভিযোগ ও পরামর্শের উত্তর প্রদান</p>
-      </div>
-
-      <div class="bg-white rounded-2xl border shadow-xs overflow-hidden">
-        <table class="w-full text-left text-xs">
-          <thead class="bg-slate-50 border-b">
-            <tr>
-              <th class="p-3 font-bold">টিকেট নং</th>
-              <th class="p-3 font-bold">প্রেরক</th>
-              <th class="p-3 font-bold">বিষয়</th>
-              <th class="p-3 font-bold">তারিখ</th>
-              <th class="p-3 font-bold text-center">স্ট্যাটাস</th>
-              <th class="p-3 font-bold text-right">পদক্ষেপ</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100">
-            ${supportTickets.map(tk => `
-              <tr>
-                <td class="p-3 font-mono font-bold text-emerald-800">${tk.id}</td>
-                <td class="p-3 font-bold text-slate-900">${tk.sender}</td>
-                <td class="p-3 text-slate-700">${tk.subject}</td>
-                <td class="p-3 text-slate-500">${tk.date}</td>
-                <td class="p-3 text-center">
-                  <span class="px-2 py-0.5 rounded text-[10px] font-bold ${tk.status === 'Resolved' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">${tk.status}</span>
-                </td>
-                <td class="p-3 text-right">
-                  <button onclick="showToast('টিকেট রিপ্লাই ওপেন হয়েছে')" class="text-emerald-700 font-bold hover:underline">উত্তর দিন</button>
-                </td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    `;
-  }
-
-  // 5.22 System Health & Cache
-  if (tab === 'system') {
-    return `
-    <div class="space-y-6 max-w-3xl">
-      <div class="border-b pb-3">
-        <h2 class="text-lg font-bold text-slate-900">৫.২২ সিস্টেম হেলথ ও সার্ভার ক্যাশ</h2>
-        <p class="text-xs text-slate-500">মেমোরি ব্যবহার ও সার্ভার অপ্টিমাইজেশন</p>
-      </div>
-
-      <div class="bg-white rounded-2xl border p-6 shadow-xs space-y-4">
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-          <div class="p-3.5 rounded-xl border bg-slate-50">
-            <span class="text-slate-500 text-[10px] block">সার্ভার স্ট্যাটাস</span>
-            <strong class="text-emerald-700 text-xs font-bold"><i class="fa-solid fa-circle text-[8px]"></i> অনলাইন (99.9% Uptime)</strong>
-          </div>
-          <div class="p-3.5 rounded-xl border bg-slate-50">
-            <span class="text-slate-500 text-[10px] block">ডাটাবেজ লেটেন্সি</span>
-            <strong class="text-slate-900 text-xs font-mono font-bold">12ms (PostgreSQL)</strong>
-          </div>
-          <div class="p-3.5 rounded-xl border bg-slate-50">
-            <span class="text-slate-500 text-[10px] block">ক্যাশ স্টোরেজ</span>
-            <strong class="text-slate-900 text-xs font-mono font-bold">4.2 MB</strong>
-          </div>
-        </div>
-        <button onclick="showToast('ব্রাউজার ও সার্ভার ক্যাশ মেমোরি সম্পূর্ণ পরিষ্কার করা হয়েছে!')" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-4 py-2 rounded-xl text-xs transition flex items-center gap-1.5">
-          <i class="fa-solid fa-broom"></i> ক্যাশ মেমোরি পরিষ্কার করুন
-        </button>
-      </div>
-    </div>
-    `;
-  }
-
-  // 6.1 Transport
-  if (tab === 'transport') {
-    return `
-    <div class="space-y-6">
-      <div class="border-b pb-3">
-        <h2 class="text-lg font-bold text-slate-900">৬.১ মাদ্রাসার নিজস্ব পরিবহন ও রুট ব্যবস্থাপনা</h2>
-        <p class="text-xs text-slate-500">কুমিল্লা শহর ও সদর দক্ষিণ এলাকায় ছাত্র-ছাত্রীদের যাতায়াত</p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        ${routes.map(r => `
-          <div class="bg-white p-5 rounded-2xl border shadow-xs space-y-2">
-            <h3 class="font-bold text-sm text-slate-900">${r.route}</h3>
-            <p class="text-xs text-slate-600">স্টপসমূহ: <strong class="text-emerald-800">${r.stops}</strong></p>
-            <p class="text-xs text-slate-500">চালক: ${r.driver} | ফোন: <strong class="font-mono text-emerald-700">${r.phone}</strong></p>
-            <p class="text-xs font-bold text-amber-700">মাসিক ভাড়া: ৳ ${r.fee}</p>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-    `;
-  }
-
-  // 6.2 Donations
-  if (tab === 'donations') {
-    return `
-    <div class="space-y-6">
-      <div class="border-b pb-3">
-        <h2 class="text-lg font-bold text-slate-900">৬.২ অনুদান, ওয়াকফ ও যাকাত ফান্ড রেজিস্টার</h2>
-        <p class="text-xs text-slate-500">দ্বীনি প্রতিষ্ঠান উন্নয়নে দানশীলদের অনুদান বিবরণী</p>
-      </div>
-
-      <div class="bg-white rounded-2xl border shadow-xs overflow-hidden">
-        <table class="w-full text-left text-xs">
-          <thead class="bg-slate-50 border-b">
-            <tr>
-              <th class="p-3 font-bold">রসিদ নম্বর</th>
-              <th class="p-3 font-bold">দানশীল দাতার নাম</th>
-              <th class="p-3 font-bold">উদ্দেশ্য / ফান্ড</th>
-              <th class="p-3 font-bold">তারিখ</th>
-              <th class="p-3 font-bold text-right">পরিমাণ</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100">
-            ${donations.map(dn => `
-              <tr>
-                <td class="p-3 font-mono font-bold text-emerald-800">${dn.receipt}</td>
-                <td class="p-3 font-bold text-slate-900">${dn.donor}</td>
-                <td class="p-3 text-slate-600">${dn.purpose}</td>
-                <td class="p-3 text-slate-500">${dn.date}</td>
-                <td class="p-3 text-right font-bold font-mono text-emerald-800">৳ ${dn.amount.toLocaleString()}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
-    </div>
-    `;
-  }
-
-  // 5.6 Student Management (Fallback & Full View)
-  if (tab === 'students') {
-    return `
-    <div class="space-y-6">
-      <div class="flex justify-between items-center border-b pb-3">
-        <div>
-          <h2 class="text-lg font-bold text-slate-900">৫.৬ শিক্ষার্থী ব্যবস্থাপনা (Student Records)</h2>
-          <p class="text-xs text-slate-500">সকল শিক্ষার্থীর প্রোফাইল, তথ্য ও আইডি কার্ড প্রিন্ট</p>
-        </div>
-        <button onclick="openModal('add-student-modal')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
-          <i class="fa-solid fa-plus"></i> নতুন শিক্ষার্থী ভর্তি
-        </button>
-      </div>
-
-      <div class="bg-white rounded-2xl border shadow-xs overflow-hidden">
-        <table class="w-full text-left text-xs">
-          <thead class="bg-slate-50 border-b">
-            <tr>
-              <th class="p-3 font-bold">আইডি ও রোল</th>
-              <th class="p-3 font-bold">শিক্ষার্থীর নাম</th>
-              <th class="p-3 font-bold">শ্রেণি ও শাখা</th>
-              <th class="p-3 font-bold">অভিভাবক ও ফোন</th>
-              <th class="p-3 font-bold text-center">উপস্থিতি</th>
-              <th class="p-3 font-bold text-center">বকেয়া</th>
-              <th class="p-3 font-bold text-right">পদক্ষেপ</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-slate-100">
-            ${students.map(st => `
-              <tr class="hover:bg-slate-50">
-                <td class="p-3 font-mono font-bold text-emerald-800">${st.id}<br><span class="text-[10px] text-slate-500 font-sans">রোল: ${st.roll}</span></td>
-                <td class="p-3">
-                  <div class="flex items-center gap-2">
-                    <img src="${st.photo}" class="w-8 h-8 rounded-full object-cover border">
-                    <div>
-                      <p class="font-bold text-slate-900">${st.name}</p>
-                      <p class="text-[10px] text-slate-500">${st.name_en}</p>
-                    </div>
-                  </div>
-                </td>
-                <td class="p-3 font-semibold text-slate-700">${st.class} (${st.section})</td>
-                <td class="p-3">${st.father}<br><span class="text-emerald-700 font-mono">${st.guardian_phone}</span></td>
-                <td class="p-3 text-center font-bold text-emerald-700">${st.attendance_pct}%</td>
-                <td class="p-3 text-center font-bold ${st.dues > 0 ? 'text-amber-600' : 'text-emerald-700'}">৳ ${st.dues}</td>
-                <td class="p-3 text-right">
-                  <button onclick="navigateTo('/portal/id-card')" class="p-1 text-blue-600 hover:bg-blue-50 rounded" title="আইডি কার্ড"><i class="fa-solid fa-id-card"></i></button>
-                  <button onclick="navigateTo('/portal/certificates')" class="p-1 text-emerald-700 hover:bg-emerald-50 rounded" title="প্রশংসাপত্র"><i class="fa-solid fa-award"></i></button>
-                </td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Add Student Modal -->
-      <div id="add-student-modal" class="hidden fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl">
-          <div class="flex justify-between items-center border-b pb-2">
-            <h3 class="font-bold text-sm text-slate-900">নতুন শিক্ষার্থী ভর্তি ফরম</h3>
-            <button onclick="closeModal('add-student-modal')" class="text-slate-400 hover:text-slate-600">&times;</button>
-          </div>
-          <form onsubmit="handleAdminAddStudent(event)" class="space-y-3">
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1">শিক্ষার্থীর নাম *</label>
-                <input type="text" id="adm-st-name" required class="w-full text-xs border rounded p-2">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1">শ্রেণি *</label>
-                <select id="adm-st-class" class="w-full text-xs border rounded p-2">
-                  <option value="হিফজুল কুরআন বিভাগ">হিফজুল কুরআন বিভাগ</option>
-                  <option value="দাখিল ১০ম শ্রেণি">দাখিল ১০ম শ্রেণি</option>
-                  <option value="দাখিল ৯ম শ্রেণি">দাখিল ৯ম শ্রেণি</option>
-                </select>
-              </div>
-            </div>
-            <div class="grid grid-cols-2 gap-2">
-              <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1">রোল নম্বর *</label>
-                <input type="text" id="adm-st-roll" required value="০৪" class="w-full text-xs border rounded p-2">
-              </div>
-              <div>
-                <label class="block text-xs font-bold text-slate-700 mb-1">অভিভাবকের মোবাইল *</label>
-                <input type="tel" id="adm-st-phone" required placeholder="017xxxxxxxx" class="w-full text-xs border rounded p-2">
-              </div>
-            </div>
-            <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2 rounded text-xs">ভর্তি নিশ্চিত করুন</button>
-          </form>
-        </div>
-      </div>
-    </div>
-    `;
-  }
-
-  // 5.8 Online Admissions
+  // 5.8 Admissions
   if (tab === 'admissions') {
     return `
     <div class="space-y-6">
@@ -3336,7 +3306,7 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
           <h2 class="text-lg font-bold text-slate-900">৫.৮ অনলাইন ভর্তি আবেদন ও মেধা তালিকা</h2>
           <p class="text-xs text-slate-500">অনলাইনে জমাকৃত আবেদন পর্যালোচনা ও এক ক্লিকে অনুমোদন</p>
         </div>
-        <button onclick="printContent('merit-list-view')" class="bg-amber-600 hover:bg-amber-700 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
+        <button type="button" onclick="printContent('merit-list-view')" class="bg-amber-600 hover:bg-amber-700 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
           <i class="fa-solid fa-list-ol"></i> মেধা তালিকা প্রিন্ট
         </button>
       </div>
@@ -3348,8 +3318,7 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
               <th class="p-3 font-bold">ট্র্যাকিং আইডি</th>
               <th class="p-3 font-bold">আবেদনকারী</th>
               <th class="p-3 font-bold">শ্রেণি</th>
-              <th class="p-3 font-bold">পিতা ও মোবাইল</th>
-              <th class="p-3 font-bold">আবাসন</th>
+              <th class="p-3 font-bold">মোবাইল</th>
               <th class="p-3 font-bold text-center">স্ট্যাটাস</th>
               <th class="p-3 font-bold text-right">পদক্ষেপ</th>
             </tr>
@@ -3360,17 +3329,21 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
                 <td class="p-3 font-mono font-bold text-emerald-800">${adm.trackingCode}</td>
                 <td class="p-3 font-bold text-slate-900">${adm.name}</td>
                 <td class="p-3 font-semibold">${adm.class}</td>
-                <td class="p-3">${adm.father}<br><span class="text-emerald-700 font-mono">${adm.mobile}</span></td>
-                <td class="p-3">${adm.residence || 'আবাসিক'}</td>
+                <td class="p-3 font-mono text-emerald-700">${adm.mobile}</td>
                 <td class="p-3 text-center">
                   <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${adm.status.includes('Approved') || adm.status.includes('অনুমোদিত') ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
                     ${adm.status}
                   </span>
                 </td>
                 <td class="p-3 text-right">
-                  <button onclick="handleApproveAdmission('${adm.trackingCode}')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-2.5 py-1 rounded text-xs font-bold transition">
-                    অনুমোদন
-                  </button>
+                  <div class="flex items-center justify-end gap-1.5">
+                    <button type="button" onclick="openReviewAdmissionModal('${adm.trackingCode}')" class="bg-blue-600 hover:bg-blue-700 text-white px-2 py-1 rounded text-xs font-bold transition">
+                      <i class="fa-solid fa-eye mr-0.5"></i> যাচাই
+                    </button>
+                    <button type="button" onclick="handleApproveAdmission('${adm.trackingCode}')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-2 py-1 rounded text-xs font-bold transition">
+                      অনুমোদন
+                    </button>
+                  </div>
                 </td>
               </tr>
             `).join('')}
@@ -3390,7 +3363,7 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
           <h2 class="text-lg font-bold text-slate-900">৫.৯ পরীক্ষা ও ফলাফল প্রকাশনা ইঞ্জিন</h2>
           <p class="text-xs text-slate-500">মার্কশিট জেনারেশন ও ফলাফল অনলাইন স্ট্যাটাস টগল</p>
         </div>
-        <button onclick="showToast('দাখিল নির্বাচনী ফলাফল অনলাইনে লাইভ প্রকাশিত হয়েছে!')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
+        <button type="button" onclick="showToast('দাখিল নির্বাচনী ফলাফল অনলাইনে লাইভ প্রকাশিত হয়েছে!')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
           <i class="fa-solid fa-bullhorn"></i> ফলাফল প্রকাশ করুন
         </button>
       </div>
@@ -3401,20 +3374,15 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
           <h3 class="text-base font-bold text-slate-900">দাখিল নির্বাচনী পরীক্ষা ২০২৬</h3>
           <p class="text-xs text-slate-500">মোট পরীক্ষার্থী: ৭০ জন | পাশের হার: ১০০%</p>
           <div class="pt-2 flex gap-2">
-            <button onclick="navigateTo('/results')" class="bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-1 rounded text-xs font-bold">মার্কশিট সার্চ</button>
+            <button type="button" onclick="navigateTo('/results')" class="bg-slate-100 hover:bg-slate-200 text-slate-800 px-3 py-1 rounded text-xs font-bold">মার্কশিট সার্চ</button>
           </div>
-        </div>
-        <div class="bg-white p-5 rounded-2xl border shadow-xs space-y-2">
-          <span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-xs font-bold">খসড়া (Draft)</span>
-          <h3 class="text-base font-bold text-slate-900">বার্ষিক পরীক্ষা ২০২৬</h3>
-          <p class="text-xs text-slate-500">নম্বর এন্ট্রি চলমান</p>
         </div>
       </div>
     </div>
     `;
   }
 
-  // 5.11 Finance & Invoicing
+  // 5.11 Finance & Cashbook
   if (tab === 'finance') {
     return `
     <div class="space-y-6">
@@ -3423,7 +3391,7 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
           <h2 class="text-lg font-bold text-slate-900">৫.১১ ফি, ইনভয়েস ও একাউন্টস ম্যানেজমেন্ট</h2>
           <p class="text-xs text-slate-500">শিক্ষার্থী ফি আদায়, ইনভয়েসিং ও আয়-ব্যয় ক্যাশ বুক</p>
         </div>
-        <button onclick="showToast('নতুন ফি ইনভয়েস তৈরি উইন্ডো')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
+        <button type="button" onclick="openModal('modal-add-invoice')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
           <i class="fa-solid fa-plus"></i> ইনভয়েস তৈরি
         </button>
       </div>
@@ -3443,31 +3411,38 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
         </div>
       </div>
 
-      <!-- Cashbook Ledger Table -->
       <div class="bg-white rounded-2xl border shadow-xs p-5 space-y-3">
-        <h3 class="font-bold text-sm text-slate-900 border-b pb-2">সাম্প্রতিক ক্যাশ বুক ও লেনদেন বিবরণী</h3>
+        <h3 class="font-bold text-sm text-slate-900 border-b pb-2">ইনভয়েস তালিকা ও ফি আদায়</h3>
         <table class="w-full text-left text-xs">
           <thead class="bg-slate-50 border-b">
             <tr>
-              <th class="p-2.5 font-bold">ভাউচার</th>
-              <th class="p-2.5 font-bold">তারিখ</th>
+              <th class="p-2.5 font-bold">ইনভয়েস</th>
+              <th class="p-2.5 font-bold">শিক্ষার্থী আইডি</th>
               <th class="p-2.5 font-bold">বিবরণ</th>
-              <th class="p-2.5 font-bold text-center">ধরন</th>
-              <th class="p-2.5 font-bold text-right">টাকার পরিমাণ</th>
+              <th class="p-2.5 font-bold">পরিমাণ</th>
+              <th class="p-2.5 font-bold text-center">স্ট্যাটাস</th>
+              <th class="p-2.5 font-bold text-right">পদক্ষেপ</th>
             </tr>
           </thead>
           <tbody class="divide-y divide-slate-100">
-            ${cashbook.map(cb => `
+            ${invoices.map(inv => `
               <tr>
-                <td class="p-2.5 font-mono font-bold text-slate-800">${cb.id}</td>
-                <td class="p-2.5 text-slate-500">${cb.date}</td>
-                <td class="p-2.5 text-slate-800 font-medium">${cb.desc}</td>
+                <td class="p-2.5 font-mono font-bold">${inv.id}</td>
+                <td class="p-2.5 font-mono">${inv.studentId}</td>
+                <td class="p-2.5">${inv.title} (${inv.month})</td>
+                <td class="p-2.5 font-bold font-mono">৳ ${inv.amount}</td>
                 <td class="p-2.5 text-center">
-                  <span class="px-2 py-0.5 rounded text-[10px] font-bold ${cb.type === 'income' ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">
-                    ${cb.type === 'income' ? 'আয় (Credit)' : 'ব্যয় (Debit)'}
+                  <span class="px-2 py-0.5 rounded text-[10px] font-bold ${inv.status === 'Paid' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+                    ${inv.status}
                   </span>
                 </td>
-                <td class="p-2.5 text-right font-mono font-bold ${cb.type === 'income' ? 'text-emerald-700' : 'text-red-700'}">৳ ${cb.amount.toLocaleString()}</td>
+                <td class="p-2.5 text-right">
+                  ${inv.status === 'Paid' ? `
+                    <button type="button" onclick="printMoneyReceipt('${inv.id}', '${inv.title}', ${inv.amount}, '${inv.date}')" class="text-emerald-700 font-bold hover:underline">রসিদ</button>
+                  ` : `
+                    <button type="button" onclick="openCollectPaymentModal('${inv.id}', ${inv.amount})" class="bg-emerald-700 text-white px-2.5 py-1 rounded font-bold text-xs">ফি আদায়</button>
+                  `}
+                </td>
               </tr>
             `).join('')}
           </tbody>
@@ -3477,13 +3452,13 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
     `;
   }
 
-  // 5.12 SMS & Communications
+  // 5.12 SMS
   if (tab === 'sms') {
     return `
     <div class="space-y-6 max-w-2xl">
       <div class="border-b pb-3">
         <h2 class="text-lg font-bold text-slate-900">৫.১২ বাল্ক এসএমএস ও ইমেইল গেটওয়ে</h2>
-        <p class="text-xs text-slate-500">সকল অভিভাবক বা নির্দিষ্ট ক্লাসে এক ক্লিকে বার্তা প্রেরণ</p>
+        <p class="text-xs text-slate-500">সকল অভিভাবক বা নির্দিষ্ট ক্লাসে বার্তা প্রেরণ</p>
       </div>
 
       <div class="bg-white rounded-2xl border p-6 shadow-xs space-y-4">
@@ -3496,10 +3471,10 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
           </select>
         </div>
         <div>
-          <label class="block text-xs font-bold text-slate-700 mb-1">এসএমএস বার্তা (বাংলা ইউনিকোড) *</label>
+          <label class="block text-xs font-bold text-slate-700 mb-1">এসএমএস বার্তা *</label>
           <textarea id="sms-text" rows="3" class="w-full text-xs border rounded-lg p-2.5" placeholder="সম্মানিত অভিভাবক, ..."></textarea>
         </div>
-        <button onclick="handleSendBulkSms()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2.5 rounded-xl text-xs transition shadow flex items-center gap-1.5">
+        <button type="button" onclick="handleSendBulkSms()" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-5 py-2.5 rounded-xl text-xs transition shadow flex items-center gap-1.5">
           <i class="fa-solid fa-paper-plane"></i> বাল্ক এসএমএস পাঠান
         </button>
       </div>
@@ -3507,7 +3482,53 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
     `;
   }
 
-  // 5.15 Notices & Gallery
+  // 5.13 Library
+  if (tab === 'library') {
+    return `
+    <div class="space-y-6">
+      <div class="flex justify-between items-center border-b pb-3">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">৫.১৩ লাইব্রেরি ও কিতাব সংরক্ষণ ব্যবস্থাপনা</h2>
+          <p class="text-xs text-slate-500">৫,০০০+ কিতাব ক্যাটালগ ও বই ইস্যু-রিটার্ন রেজিস্টার</p>
+        </div>
+        <button type="button" onclick="openModal('modal-add-book')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold shadow transition flex items-center gap-1.5">
+          <i class="fa-solid fa-plus"></i> কিতাব যোগ করুন
+        </button>
+      </div>
+
+      <div class="bg-white rounded-2xl border shadow-xs overflow-hidden">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-50 border-b">
+            <tr>
+              <th class="p-3 font-bold">বই কোড</th>
+              <th class="p-3 font-bold">কিতাবের নাম</th>
+              <th class="p-3 font-bold">লেখক</th>
+              <th class="p-3 font-bold">বিষয়</th>
+              <th class="p-3 font-bold text-center">তাক</th>
+              <th class="p-3 font-bold text-center">মোট কপি</th>
+              <th class="p-3 font-bold text-center">মজুদ</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-100">
+            ${books.map(b => `
+              <tr class="hover:bg-slate-50">
+                <td class="p-3 font-mono font-bold text-emerald-800">${b.id}</td>
+                <td class="p-3 font-bold text-slate-900">${b.title}</td>
+                <td class="p-3 text-slate-700">${b.author}</td>
+                <td class="p-3">${b.category}</td>
+                <td class="p-3 text-center font-mono font-bold">${b.shelf}</td>
+                <td class="p-3 text-center font-mono font-bold">${b.copies}</td>
+                <td class="p-3 text-center font-mono font-bold text-emerald-700">${b.available}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    `;
+  }
+
+  // 5.15 Notices
   if (tab === 'notices') {
     return `
     <div class="space-y-6">
@@ -3516,7 +3537,7 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
           <h2 class="text-lg font-bold text-slate-900">৫.১৫ নোটিশ ও ফটো গ্যালারি সিএমএস</h2>
           <p class="text-xs text-slate-500">বিজ্ঞপ্তি প্রকাশ ও আর্কাইভ পরিচালনা</p>
         </div>
-        <button onclick="openModal('add-notice-modal')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
+        <button type="button" onclick="openModal('modal-add-notice')" class="bg-emerald-700 hover:bg-emerald-800 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow">
           <i class="fa-solid fa-plus"></i> নতুন নোটিশ প্রকাশ
         </button>
       </div>
@@ -3529,45 +3550,18 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
               <span class="text-xs text-slate-400 ml-2">${n.date}</span>
               <h4 class="text-xs font-bold text-slate-900 mt-1">${n.title}</h4>
             </div>
-            <button onclick="handleDeleteNotice('${n.id}')" class="text-red-600 hover:text-red-800 p-1.5 text-xs" title="মুছুন"><i class="fa-solid fa-trash"></i></button>
+            <div class="flex items-center gap-1.5">
+              <button type="button" onclick="openEditNoticeModal('${n.id}')" class="text-emerald-700 hover:bg-emerald-50 px-2 py-1 rounded font-bold text-xs transition"><i class="fa-solid fa-pen-to-square mr-1"></i> এডিট</button>
+              <button type="button" onclick="handleDeleteNotice('${n.id}')" class="text-red-600 hover:bg-red-50 p-1.5 rounded text-xs transition" title="মুছুন"><i class="fa-solid fa-trash"></i></button>
+            </div>
           </div>
         `).join('')}
-      </div>
-
-      <!-- Add Notice Modal -->
-      <div id="add-notice-modal" class="hidden fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl">
-          <div class="flex justify-between items-center border-b pb-2">
-            <h3 class="font-bold text-sm text-slate-900">নতুন নোটিশ প্রকাশ ফরম</h3>
-            <button onclick="closeModal('add-notice-modal')" class="text-slate-400 hover:text-slate-600">&times;</button>
-          </div>
-          <form onsubmit="handleCreateNotice(event)" class="space-y-3">
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">নোটিশ শিরোনাম *</label>
-              <input type="text" id="notice-title" required class="w-full text-xs border rounded p-2">
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">ক্যাটাগরি *</label>
-              <select id="notice-cat" class="w-full text-xs border rounded p-2">
-                <option value="একাডেমিক">একাডেমিক</option>
-                <option value="পরীক্ষা">পরীক্ষা সংক্রান্ত</option>
-                <option value="ভর্তি">ভর্তি বিজ্ঞপ্তি</option>
-                <option value="ছুটি">ছুটির নোটিশ</option>
-              </select>
-            </div>
-            <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1">বিস্তারিত বিবরণ *</label>
-              <textarea id="notice-body" required rows="3" class="w-full text-xs border rounded p-2"></textarea>
-            </div>
-            <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2 rounded text-xs">নোটিশ লাইভ প্রকাশ করুন</button>
-          </form>
-        </div>
       </div>
     </div>
     `;
   }
 
-  // 5.18 Institution Settings
+  // 5.18 Settings
   if (tab === 'settings') {
     return `
     <div class="space-y-6 max-w-2xl">
@@ -3605,7 +3599,7 @@ function renderActiveModuleBody(tab, inst, stats, students, teachers, notices, a
     `;
   }
 
-  // Fallback to Dashboard
+  // Default / Other tabs
   return renderActiveModuleBody('dashboard', inst, stats, students, teachers, notices, admissions, invoices, books, rooms, routes, donations, auditLogs, cmsPages, academicClasses, subjects, feeStructures, cashbook, smsLogs, supportTickets);
 }
 
@@ -3648,7 +3642,7 @@ function closeModal(id) {
 }
 
 // LocalStorage Persistence
-const STORAGE_KEY = 'DREAM_LEARN_BD_STATE_V3';
+const STORAGE_KEY = 'DREAM_LEARN_BD_STATE_V4';
 
 function loadState() {
   try {
@@ -4069,44 +4063,442 @@ function handleSaveMarks() {
   showToast('পরীক্ষার নম্বর ও জিপিএ সফলভাবে সংরক্ষিত ও রেজাল্ট শিটে আপডেট হয়েছে!');
 }
 
-// Admin Actions
-function handleAdminAddStudent(event) {
+// ==================== ADMIN ADD/EDIT FORM HANDLERS ====================
+
+// Student Management Handlers
+function submitAddStudent(event) {
   event.preventDefault();
-  const name = document.getElementById('adm-st-name').value;
-  const cls = document.getElementById('adm-st-class').value;
-  const roll = document.getElementById('adm-st-roll').value;
-  const phone = document.getElementById('adm-st-phone').value;
+  const nameBn = document.getElementById('add-st-name').value;
+  const nameEn = document.getElementById('add-st-name-en').value;
+  const roll = document.getElementById('add-st-roll').value;
+  const cls = document.getElementById('add-st-class').value;
+  const sec = document.getElementById('add-st-section').value;
+  const father = document.getElementById('add-st-father').value;
+  const phone = document.getElementById('add-st-phone').value;
+  const blood = document.getElementById('add-st-blood').value;
+  const dues = parseFloat(document.getElementById('add-st-dues').value) || 0;
+
+  const newId = 'STD-2026-' + (510 + db.students.length);
 
   db.students.push({
-    id: 'STD-2026-' + (510 + db.students.length),
-    name: name,
-    name_en: 'New Student',
+    id: newId,
+    name: nameBn,
+    name_en: nameEn,
     roll: roll,
     class: cls,
-    section: 'ক শাখা',
-    father: 'অভিভাবক',
+    section: sec,
+    shift: 'দিবা',
+    father: father,
+    mother: 'রাবেয়া বেগম',
     guardian_phone: phone,
+    dob: '০১ জানুয়ারি ২০১০',
+    blood_group: blood,
+    address: 'পদুয়ার বাজার, কুমিল্লা',
+    status: 'নিয়মিত',
     attendance_pct: 100,
-    dues: 0,
+    dues: dues,
     photo: db.students[0].photo
   });
+
   db.stats.students++;
   saveState();
-  closeModal('add-student-modal');
-  showToast('নতুন শিক্ষার্থী ' + name + ' সফলভাবে ভর্তি করা হয়েছে!');
+  closeModal('modal-add-student');
+  showToast('নতুন শিক্ষার্থী ' + nameBn + ' (আইডি: ' + newId + ') সফলভাবে ভর্তি সম্পন্ন হয়েছে!');
   renderApp();
 }
 
-function handleApproveAdmission(code) {
+function openEditStudentModal(id) {
+  const st = db.students.find(s => s.id === id);
+  if (!st) return;
+
+  document.getElementById('edit-st-id').value = st.id;
+  document.getElementById('edit-st-name').value = st.name;
+  document.getElementById('edit-st-roll').value = st.roll;
+  document.getElementById('edit-st-class').value = st.class;
+  document.getElementById('edit-st-phone').value = st.guardian_phone;
+  document.getElementById('edit-st-dues').value = st.dues;
+
+  openModal('modal-edit-student');
+}
+
+function submitEditStudent(event) {
+  event.preventDefault();
+  const id = document.getElementById('edit-st-id').value;
+  const st = db.students.find(s => s.id === id);
+  if (!st) return;
+
+  st.name = document.getElementById('edit-st-name').value;
+  st.roll = document.getElementById('edit-st-roll').value;
+  st.class = document.getElementById('edit-st-class').value;
+  st.guardian_phone = document.getElementById('edit-st-phone').value;
+  st.dues = parseFloat(document.getElementById('edit-st-dues').value) || 0;
+
+  saveState();
+  closeModal('modal-edit-student');
+  showToast('শিক্ষার্থী ' + st.name + ' এর তথ্য সফলভাবে আপডেট করা হয়েছে!');
+  renderApp();
+}
+
+// Teacher Management Handlers
+function submitAddTeacher(event) {
+  event.preventDefault();
+  const name = document.getElementById('add-tch-name').value;
+  const id = document.getElementById('add-tch-id').value;
+  const desig = document.getElementById('add-tch-desig').value;
+  const dept = document.getElementById('add-tch-dept').value;
+  const phone = document.getElementById('add-tch-phone').value;
+  const salary = document.getElementById('add-tch-salary').value;
+  const qual = document.getElementById('add-tch-qual').value;
+
+  db.teachers.push({
+    id: id,
+    name: name,
+    designation: desig,
+    department: dept,
+    qualification: qual,
+    phone: phone,
+    email: 'teacher' + (db.teachers.length + 1) + '@dreamlearnbd.edu.bd',
+    salary: salary,
+    experience: '৫ বছর',
+    photo: db.teachers[2].photo
+  });
+
+  db.stats.teachers++;
+  saveState();
+  closeModal('modal-add-teacher');
+  showToast('নতুন শিক্ষক ' + name + ' সফলভাবে সিস্টেমে যুক্ত হয়েছেন!');
+  renderApp();
+}
+
+function openEditTeacherModal(id) {
+  const tch = db.teachers.find(t => t.id === id);
+  if (!tch) return;
+
+  document.getElementById('edit-tch-id').value = tch.id;
+  document.getElementById('edit-tch-name').value = tch.name;
+  document.getElementById('edit-tch-desig').value = tch.designation;
+  document.getElementById('edit-tch-phone').value = tch.phone;
+  document.getElementById('edit-tch-salary').value = tch.salary || '৩০,০০০';
+  document.getElementById('edit-tch-qual').value = tch.qualification;
+
+  openModal('modal-edit-teacher');
+}
+
+function submitEditTeacher(event) {
+  event.preventDefault();
+  const id = document.getElementById('edit-tch-id').value;
+  const tch = db.teachers.find(t => t.id === id);
+  if (!tch) return;
+
+  tch.name = document.getElementById('edit-tch-name').value;
+  tch.designation = document.getElementById('edit-tch-desig').value;
+  tch.phone = document.getElementById('edit-tch-phone').value;
+  tch.salary = document.getElementById('edit-tch-salary').value;
+  tch.qualification = document.getElementById('edit-tch-qual').value;
+
+  saveState();
+  closeModal('modal-edit-teacher');
+  showToast('শিক্ষক ' + tch.name + ' এর তথ্য সফলভাবে আপডেট হয়েছে!');
+  renderApp();
+}
+
+// Notice Handlers
+function submitAddNotice(event) {
+  event.preventDefault();
+  const title = document.getElementById('add-not-title').value;
+  const cat = document.getElementById('add-not-cat').value;
+  const body = document.getElementById('add-not-body').value;
+
+  db.notices.unshift({
+    id: 'NOT-2026-0' + (db.notices.length + 1),
+    title: title,
+    category: cat,
+    date: '১৬ অক্টোবর ২০২৬',
+    file: 'notice-' + Date.now() + '.pdf',
+    featured: true,
+    content: body
+  });
+
+  saveState();
+  closeModal('modal-add-notice');
+  showToast('নতুন নোটিশ সফলভাবে লাইভ প্রকাশ করা হয়েছে!');
+  renderApp();
+}
+
+function openEditNoticeModal(id) {
+  const not = db.notices.find(n => n.id === id);
+  if (!not) return;
+
+  document.getElementById('edit-not-id').value = not.id;
+  document.getElementById('edit-not-title').value = not.title;
+  document.getElementById('edit-not-cat').value = not.category;
+  document.getElementById('edit-not-body').value = not.content;
+
+  openModal('modal-edit-notice');
+}
+
+function submitEditNotice(event) {
+  event.preventDefault();
+  const id = document.getElementById('edit-not-id').value;
+  const not = db.notices.find(n => n.id === id);
+  if (!not) return;
+
+  not.title = document.getElementById('edit-not-title').value;
+  not.category = document.getElementById('edit-not-cat').value;
+  not.content = document.getElementById('edit-not-body').value;
+
+  saveState();
+  closeModal('modal-edit-notice');
+  showToast('নোটিশটি সফলভাবে আপডেট করা হয়েছে!');
+  renderApp();
+}
+
+function handleDeleteNotice(id) {
+  db.notices = db.notices.filter(n => n.id !== id);
+  saveState();
+  showToast('নোটিশটি সফলভাবে মুছে ফেলা হয়েছে।');
+  renderApp();
+}
+
+// CMS Page Editor Handlers
+function openEditPageModal(id, title) {
+  const pg = db.cmsPages.find(p => p.id === id);
+  if (!pg) return;
+
+  document.getElementById('edit-pg-id').value = pg.id;
+  document.getElementById('edit-pg-title').value = pg.title;
+  document.getElementById('edit-pg-slug').value = pg.slug;
+  document.getElementById('edit-pg-status').value = pg.status;
+
+  openModal('modal-edit-page');
+}
+
+function submitEditPage(event) {
+  event.preventDefault();
+  const id = document.getElementById('edit-pg-id').value;
+  const pg = db.cmsPages.find(p => p.id === id);
+  if (!pg) return;
+
+  pg.title = document.getElementById('edit-pg-title').value;
+  pg.slug = document.getElementById('edit-pg-slug').value;
+  pg.status = document.getElementById('edit-pg-status').value;
+  pg.updated = '১৬ অক্টোবর ২০২৬';
+
+  saveState();
+  closeModal('modal-edit-page');
+  showToast('পেজ ' + pg.title + ' সফলভাবে আপডেট ও সংরক্ষিত হয়েছে!');
+  renderApp();
+}
+
+function toggleCmsSection(secId) {
+  const sec = db.cmsSections.find(s => s.id === secId);
+  if (sec) {
+    sec.enabled = !sec.enabled;
+    saveState();
+    showToast(sec.name + ' দৃশ্যমানতা আপডেট করা হয়েছে');
+  }
+}
+
+// Finance & Invoice Handlers
+function submitAddInvoice(event) {
+  event.preventDefault();
+  const stId = document.getElementById('add-inv-student').value;
+  const title = document.getElementById('add-inv-title').value;
+  const month = document.getElementById('add-inv-month').value;
+  const amount = parseFloat(document.getElementById('add-inv-amount').value) || 0;
+
+  const newId = 'INV-' + (1052 + db.invoices.length);
+
+  db.invoices.unshift({
+    id: newId,
+    studentId: stId,
+    month: month,
+    title: title,
+    amount: amount,
+    status: 'Unpaid',
+    date: '১৬ অক্টোবর ২০২৬',
+    method: '-'
+  });
+
+  const st = db.students.find(s => s.id === stId);
+  if (st) st.dues += amount;
+
+  saveState();
+  closeModal('modal-add-invoice');
+  showToast('নতুন ইনভয়েস ' + newId + ' সফলভাবে তৈরি হয়েছে!');
+  renderApp();
+}
+
+function openCollectPaymentModal(invId, amount) {
+  document.getElementById('collect-inv-id').value = invId;
+  document.getElementById('collect-inv-amount').value = amount;
+  openModal('modal-collect-payment');
+}
+
+function submitCollectPayment(event) {
+  event.preventDefault();
+  const invId = document.getElementById('collect-inv-id').value;
+  const amount = parseFloat(document.getElementById('collect-inv-amount').value) || 0;
+  const method = document.getElementById('collect-inv-method').value;
+
+  const inv = db.invoices.find(i => i.id === invId);
+  if (inv) {
+    inv.status = 'Paid';
+    inv.method = method;
+  }
+
+  const st = db.students.find(s => s.id === (inv ? inv.studentId : 'STD-2024-508'));
+  if (st && st.dues >= amount) {
+    st.dues -= amount;
+  }
+
+  db.cashbookEntries.unshift({
+    id: 'CB-' + (105 + db.cashbookEntries.length),
+    date: '১৬ অক্টোবর ২০২৬',
+    desc: 'ফি আদায় (' + (inv ? inv.title : 'মাসিক ফি') + ') - ' + method,
+    type: 'income',
+    amount: amount
+  });
+
+  db.stats.monthly_collection += amount;
+
+  saveState();
+  closeModal('modal-collect-payment');
+  showToast('৳ ' + amount + ' ফি সফলভাবে আদায় হয়েছে (' + method + ')!');
+  renderApp();
+}
+
+// Academics Handlers
+function submitAddClass(event) {
+  event.preventDefault();
+  const name = document.getElementById('add-cls-name').value;
+  const jamat = document.getElementById('add-cls-jamat').value;
+  const cap = parseInt(document.getElementById('add-cls-capacity').value) || 40;
+
+  db.academicClasses.push({
+    id: 'cls-' + Date.now(),
+    name: name,
+    jamat: jamat,
+    sections: ['ক', 'খ'],
+    students: 0,
+    capacity: cap
+  });
+
+  saveState();
+  closeModal('modal-add-class');
+  showToast('নতুন শ্রেণি ' + name + ' সফলভাবে যুক্ত হয়েছে!');
+  renderApp();
+}
+
+function submitAddSubject(event) {
+  event.preventDefault();
+  const code = document.getElementById('add-sub-code').value;
+  const name = document.getElementById('add-sub-name').value;
+  const teacher = document.getElementById('add-sub-teacher').value;
+  const total = parseInt(document.getElementById('add-sub-total').value) || 100;
+
+  db.subjects.push({
+    code: code,
+    name: name,
+    class: 'দাখিল ১০ম',
+    teacher: teacher,
+    total: total,
+    cq: Math.round(total * 0.7),
+    mcq: Math.round(total * 0.3)
+  });
+
+  saveState();
+  closeModal('modal-add-subject');
+  showToast('নতুন বিষয় ' + name + ' সফলভাবে সংরক্ষিত হয়েছে!');
+  renderApp();
+}
+
+// Library Handlers
+function submitAddBook(event) {
+  event.preventDefault();
+  const title = document.getElementById('add-bk-title').value;
+  const author = document.getElementById('add-bk-author').value;
+  const cat = document.getElementById('add-bk-cat').value;
+  const shelf = document.getElementById('add-bk-shelf').value;
+  const copies = parseInt(document.getElementById('add-bk-copies').value) || 10;
+
+  const newId = 'BK-' + (106 + db.libraryBooks.length);
+
+  db.libraryBooks.push({
+    id: newId,
+    title: title,
+    author: author,
+    category: cat,
+    shelf: shelf,
+    copies: copies,
+    available: copies
+  });
+
+  saveState();
+  closeModal('modal-add-book');
+  showToast('কিতাব ' + title + ' লাইব্রেরিতে অন্তর্ভুক্ত হয়েছে!');
+  renderApp();
+}
+
+// Online Admission Review Handler
+function openReviewAdmissionModal(code) {
+  const adm = db.admissions.find(a => a.trackingCode === code);
+  if (!adm) return;
+
+  const container = document.getElementById('review-adm-content');
+  if (container) {
+    container.innerHTML = `
+      <div class="space-y-3">
+        <div class="flex items-center gap-4 bg-slate-50 p-3 rounded-xl border">
+          <img src="${adm.photo || db.students[0].photo}" class="w-16 h-18 rounded-lg object-cover border-2 border-emerald-600">
+          <div>
+            <h4 class="font-bold text-sm text-slate-900">${adm.name}</h4>
+            <p class="text-xs text-emerald-800 font-semibold font-mono">${adm.trackingCode} | ${adm.class}</p>
+            <p class="text-xs text-slate-500">আবেদনের তারিখ: ${adm.appliedDate}</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 text-xs">
+          <div><span class="text-slate-500">পিতার নাম:</span> <strong>${adm.father}</strong></div>
+          <div><span class="text-slate-500">মোবাইল:</span> <strong class="font-mono text-emerald-800">${adm.mobile}</strong></div>
+          <div><span class="text-slate-500">আবাসন:</span> <strong>${adm.residence || 'আবাসিক'}</strong></div>
+          <div><span class="text-slate-500">বর্তমান স্ট্যাটাস:</span> <strong class="text-amber-700">${adm.status}</strong></div>
+        </div>
+
+        <div class="pt-3 border-t flex justify-end gap-2">
+          <button type="button" onclick="handleUpdateAdmissionStatus('${adm.trackingCode}', 'অনুমোদিত (Approved)')" class="bg-emerald-700 hover:bg-emerald-800 text-white font-bold px-4 py-2 rounded-xl text-xs transition">
+            <i class="fa-solid fa-check"></i> অনুমোদন করুন
+          </button>
+          <button type="button" onclick="handleUpdateAdmissionStatus('${adm.trackingCode}', 'অপেক্ষমাণ (Waitlist)')" class="bg-amber-600 hover:bg-amber-700 text-white font-bold px-3 py-2 rounded-xl text-xs transition">
+            ওয়েটলিস্ট
+          </button>
+          <button type="button" onclick="handleUpdateAdmissionStatus('${adm.trackingCode}', 'বাতিল (Rejected)')" class="bg-red-700 hover:bg-red-800 text-white font-bold px-3 py-2 rounded-xl text-xs transition">
+            বাতিল
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  openModal('modal-review-admission');
+}
+
+function handleUpdateAdmissionStatus(code, newStatus) {
   const adm = db.admissions.find(a => a.trackingCode === code);
   if (adm) {
-    adm.status = 'অনুমোদিত (Approved)';
+    adm.status = newStatus;
     saveState();
-    showToast('আবেদন ' + code + ' সফলভাবে অনুমোদিত হয়েছে!');
+    closeModal('modal-review-admission');
+    showToast('আবেদন ' + code + ' স্ট্যাটাস: ' + newStatus);
     renderApp();
   }
 }
 
+function handleApproveAdmission(code) {
+  handleUpdateAdmissionStatus(code, 'অনুমোদিত (Approved)');
+}
+
+// Global Settings, SEO, Theme, Backup
 function switchAppTheme(theme) {
   db.institution.currentTheme = theme;
   document.body.className = '';
@@ -4125,24 +4517,30 @@ function handleSaveSettings(event) {
   db.institution.eiin = document.getElementById('set-eiin').value;
   db.institution.address = document.getElementById('set-address').value;
   saveState();
-  showToast('প্রতিষ্ঠান সেটিংস সংরক্ষিত হয়েছে!');
+  showToast('প্রতিষ্ঠান সেটিংস সফলভাবে সংরক্ষিত হয়েছে!');
   renderApp();
 }
 
 function handleSaveSeo(event) {
   event.preventDefault();
-  db.seoSettings.metaTitle = document.getElementById('seo-title').value;
-  db.seoSettings.metaDesc = document.getElementById('seo-desc').value;
-  db.seoSettings.keywords = document.getElementById('seo-keywords').value;
-  db.seoSettings.gaId = document.getElementById('seo-ga').value;
+  const tEl = document.getElementById('seo-title');
+  const dEl = document.getElementById('seo-desc');
+  const kEl = document.getElementById('seo-keywords');
+  const gEl = document.getElementById('seo-ga');
+  if (tEl) db.seoSettings.metaTitle = tEl.value;
+  if (dEl) db.seoSettings.metaDesc = dEl.value;
+  if (kEl) db.seoSettings.keywords = kEl.value;
+  if (gEl) db.seoSettings.gaId = gEl.value;
   saveState();
   showToast('এসইও মেটা সেটিংস সংরক্ষিত হয়েছে!');
   renderApp();
 }
 
 function handleSendBulkSms() {
-  const rec = document.getElementById('sms-recipients').value;
-  const txt = document.getElementById('sms-text').value;
+  const recEl = document.getElementById('sms-recipients');
+  const txtEl = document.getElementById('sms-text');
+  const rec = recEl ? recEl.value : 'all';
+  const txt = txtEl ? txtEl.value : '';
   if (!txt) {
     showToast('অনুগ্রহ করে বার্তার টেক্সট লিখুন', 'error');
     return;
@@ -4156,34 +4554,6 @@ function handleSendBulkSms() {
   });
   saveState();
   showToast('বাল্ক এসএমএস সফলভাবে প্রেরিত হয়েছে!');
-  renderApp();
-}
-
-function handleCreateNotice(event) {
-  event.preventDefault();
-  const title = document.getElementById('notice-title').value;
-  const cat = document.getElementById('notice-cat').value;
-  const body = document.getElementById('notice-body').value;
-
-  db.notices.unshift({
-    id: 'NOT-2026-0' + (db.notices.length + 1),
-    title: title,
-    category: cat,
-    date: '১৬ অক্টোবর ২০২৬',
-    file: 'notice-' + Date.now() + '.pdf',
-    featured: true,
-    content: body
-  });
-  saveState();
-  closeModal('add-notice-modal');
-  showToast('নতুন নোটিশ সফলভাবে প্রকাশিত হয়েছে!');
-  renderApp();
-}
-
-function handleDeleteNotice(id) {
-  db.notices = db.notices.filter(n => n.id !== id);
-  saveState();
-  showToast('নোটিশটি মুছে ফেলা হয়েছে।');
   renderApp();
 }
 
@@ -4218,19 +4588,6 @@ function handleRestoreBackup(event) {
       }
     };
     reader.readAsText(file);
-  }
-}
-
-function openEditPageModal(id, title) {
-  showToast('পেজ এডিটর: ' + title);
-}
-
-function toggleCmsSection(secId) {
-  const sec = db.cmsSections.find(s => s.id === secId);
-  if (sec) {
-    sec.enabled = !sec.enabled;
-    saveState();
-    showToast(sec.name + ' দৃশ্যমানতা আপডেট করা হয়েছে');
   }
 }
 
