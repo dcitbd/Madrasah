@@ -1,9 +1,2 @@
-CREATE TABLE users (
-    id VARCHAR(50) PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    role VARCHAR(50) NOT NULL,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    phone VARCHAR(50),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- Migration: 001_create_users_table.sql
+CREATE TABLE IF NOT EXISTS create (id SERIAL PRIMARY KEY);

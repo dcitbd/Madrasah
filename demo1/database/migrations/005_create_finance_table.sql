@@ -1,7 +1,2 @@
-CREATE TABLE invoices (
-    id VARCHAR(50) PRIMARY KEY,
-    student_id VARCHAR(50) REFERENCES students(id),
-    month VARCHAR(50),
-    amount NUMERIC(10,2),
-    status VARCHAR(20) DEFAULT 'Unpaid'
-);
+-- Migration: 005_create_finance_table.sql
+CREATE TABLE IF NOT EXISTS create (id SERIAL PRIMARY KEY);

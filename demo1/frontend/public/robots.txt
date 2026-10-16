@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://dreamlearnbd.edu.bd/sitemap.xml

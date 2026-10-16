@@ -1,13 +1,26 @@
 {
   "name": "madrasah-management-system",
   "version": "1.0.0",
-  "description": "Dream Learn BD - Complete Madrasah Website & Management System",
+  "description": "Dream Learn BD - Complete Madrasah Management System",
   "main": "backend/src/server.js",
   "scripts": {
     "start": "node backend/src/server.js",
     "dev": "nodemon backend/src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test": "jest"
   },
   "author": "Jainal Abedin (CEO, Dream Career IT Bangladesh - dcitbd.com)",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.11.5"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0"
+  }
 }
